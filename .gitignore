@@ -1,3 +1,6 @@
+# Input Output files
+board*.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
