@@ -1,7 +1,7 @@
 import argparse
 import math
 
-from main import Board, StaticEstimation, Debug, Black
+from utils import Board, StaticEstimation, Debug, Black
 
 class MiniMaxOpening:
     def __init__(self):
