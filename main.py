@@ -1,3 +1,4 @@
+import re
 from textwrap import dedent
 
 class Board:
@@ -166,8 +167,25 @@ class Board:
             return self.generate_hopping(board)
         else:
             return self.generate_move(board)
+
+class Black(Board):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def board_swapper(self, board) -> str:
+        return re.sub(r'(W)|(B)', lambda match: 'B' if match.group(1) else 'W', board)
+
+    def generate_black_moves(self, board) -> list:
+        black_moves, result = list(), list()
+        swapped_board = self.board_swapper(board)
+        black_moves = self.generate_moves_midgame_endgame(swapped_board)
+        for move in black_moves:
+            swapped_move = self.board_swapper(move)
+            result.append(swapped_move)
+        return result
+
     
-class StaticEstimation(Board):
+class StaticEstimation(Black):
     def __init__(self) -> None:
         super().__init__()
 
@@ -175,9 +193,9 @@ class StaticEstimation(Board):
         white_pieces, black_pieces = board.count('W'), board.count('B')
         return white_pieces - black_pieces
 
-    def static_estimation_midgame_endgame(self, board) -> int:
+    def static_estimation_midgame_endgame(self, board):
         white_pieces, black_pieces = board.count('W'), board.count('B')
-        black_moves = len(self.generate_moves_midgame_endgame(board))
+        black_moves = len(self.generate_black_moves(board))
         if black_pieces <= 2:
             return 10000
         elif white_pieces <= 2:
@@ -190,8 +208,6 @@ class StaticEstimation(Board):
 class Debug():
     def __init__(self) -> None:
         pass
-
-    # re.sub(r'(W)|(B)', lambda match: 'B' if match.group(1) else 'W', board)
 
     # Draw the board
     def draw(self, board) -> str:
