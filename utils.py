@@ -5,8 +5,10 @@ class Board:
     def __init__(self) -> None:
         pass
     
-    # Return the neighbors of a given position
     def neighbors(self, location) -> list:
+        """
+        Returns the list of neighbors of a given position
+        """
         if location == 0:
             return [1, 6]
         elif location == 1:
@@ -51,8 +53,10 @@ class Board:
             return [11, 19]
         return []
 
-    # Return True if the location closes a mill else False
     def closeMill(self, location, board) -> bool:
+        """
+        Returns True if the input location closes a mill else returns False
+        """
         check_mill = board[location]
         if board[location] in ('W', 'B'):
             if location == 0:
@@ -102,6 +106,9 @@ class Board:
         return False     
 
     def generate_remove(self, board, move_list) -> list:
+        """
+        Returns a list of all possible board positions created by removing a black piece
+        """
         no_positions_added = True
         for location, piece in enumerate(board):
             if piece == 'B':
@@ -116,6 +123,9 @@ class Board:
         return move_list
 
     def generate_move(self, board) -> list:
+        """
+        Returns a list of all possible board positions created by moving a white piece to an adjacent location
+        """
         move_list = list()
         for location, piece in enumerate(board):
             if piece == 'W':
@@ -132,6 +142,9 @@ class Board:
         return move_list
 
     def generate_add(self, board) -> list:
+        """
+        Returns a list of all possible board positions created by adding a white piece
+        """
         add_list = list()
         for location, piece in enumerate(board):
             if piece == 'x':
@@ -145,9 +158,15 @@ class Board:
         return add_list
 
     def generate_moves_opening(self, board) -> str:
+        """
+        Returns a list of all possible board positions created by adding a white piece
+        """
         return self.generate_add(board)
 
     def generate_hopping(self, board) -> list:
+        """
+        Returns a list of all possible board positions created by hopping of a white piece
+        """
         hop_list = list()
         for location_i, piece_i in enumerate(board):
             if piece_i == 'W':
@@ -163,6 +182,9 @@ class Board:
         return hop_list
 
     def generate_moves_midgame_endgame(self, board) -> str:
+        """
+        Returns a board position during midgame or endgame
+        """
         if board.count('W') == 3:
             return self.generate_hopping(board)
         else:
@@ -173,9 +195,15 @@ class Black(Board):
         super().__init__()
 
     def board_swapper(self, board) -> str:
+        """
+        Returns the board with the white and black pieces swapped
+        """
         return re.sub(r'(W)|(B)', lambda match: 'B' if match.group(1) else 'W', board)
 
     def generate_black_moves(self, board) -> list:
+        """
+        Returns a list of all possible board positions created by a swapped board for playing as black
+        """
         black_moves, result = list(), list()
         swapped_board = self.board_swapper(board)
         black_moves = self.generate_moves_midgame_endgame(swapped_board)
@@ -190,10 +218,16 @@ class StaticEstimation(Black):
         super().__init__()
 
     def static_estimation_opening(self, board) -> int:
+        """
+        Returns the static estimation of the board during the opening phase
+        """
         white_pieces, black_pieces = board.count('W'), board.count('B')
         return white_pieces - black_pieces
 
     def static_estimation_midgame_endgame(self, board):
+        """
+        Returns the static estimation of the board during the midgame or endgame phase
+        """
         white_pieces, black_pieces = board.count('W'), board.count('B')
         black_moves = len(self.generate_black_moves(board))
         if black_pieces <= 2:
@@ -205,12 +239,119 @@ class StaticEstimation(Black):
         else:
             return 1000 * (white_pieces - black_pieces) - black_moves
 
+class StaticEstimationImproved(Black):
+    def __init__(self) -> None:
+        super().__init__()
+    
+    def improved_mill(self, location, board, check_mill) -> bool:
+        """
+        Returns True if the white's location is part of a mill else returns False
+        """
+        if location == 0:
+            return True if board[6] == check_mill and board[18] == check_mill else False
+        elif location == 1:
+            return True if board[11] == check_mill and board[20] == check_mill else False
+        elif location == 2:
+            return True if board[7] == check_mill and board[15] == check_mill else False
+        elif location == 3:
+            return True if board[10] == check_mill and board[17] == check_mill else False
+        elif location == 4:
+            return True if board[8] == check_mill and board[12] == check_mill else False
+        elif location == 5:
+            return True if board[9] == check_mill and board[14] == check_mill else False
+        elif location == 6:
+            return True if ((board[0] == check_mill and board[18] == check_mill) or (board[7] == check_mill and board[8] == check_mill)) else False
+        elif location == 7:
+            return True if ((board[2] == check_mill and board[15] == check_mill) or (board[6] == check_mill and board[8] == check_mill)) else False
+        elif location == 8:
+            return True if ((board[4] == check_mill and board[12] == check_mill) or (board[6] == check_mill and board[7] == check_mill)) else False
+        elif location == 9:
+            return True if ((board[5] == check_mill and board[14] == check_mill) or (board[10] == check_mill and board[11] == check_mill)) else False
+        elif location == 10:
+            return True if ((board[3] == check_mill and board[17] == check_mill) or (board[9] == check_mill and board[11] == check_mill)) else False
+        elif location == 11:
+            return True if ((board[1] == check_mill and board[20] == check_mill) or (board[9] == check_mill and board[10] == check_mill)) else False
+        elif location == 12:
+            return True if ((board[4] == check_mill and board[8] == check_mill) or (board[13] == check_mill and board[14] == check_mill)) else False
+        elif location == 13:
+            return True if ((board[12] == check_mill and board[14] == check_mill) or (board[16] == check_mill and board[19] == check_mill)) else False
+        elif location == 14:
+            return True if ((board[5] == check_mill and board[9] == check_mill) or (board[12] == check_mill and board[13] == check_mill)) else False
+        elif location == 15:
+            return True if ((board[2] == check_mill and board[7] == check_mill) or (board[16] == check_mill and board[17] == check_mill)) else False
+        elif location == 16:
+            return True if ((board[13] == check_mill and board[19] == check_mill) or (board[15] == check_mill and board[17] == check_mill)) else False
+        elif location == 17:
+            return True if ((board[3] == check_mill and board[10] == check_mill) or (board[15] == check_mill and board[16] == check_mill)) else False
+        elif location == 18:
+            return True if ((board[0] == check_mill and board[6] == check_mill) or (board[19] == check_mill and board[20] == check_mill)) else False
+        elif location == 19:
+            return True if ((board[16] == check_mill and board[13] == check_mill) or (board[18] == check_mill and board[20] == check_mill)) else False
+        elif location == 20:
+            return True if ((board[1] == check_mill and board[11] == check_mill) or (board[18] == check_mill and board[19] == check_mill)) else False
+        else:
+            return False
+
+    def count_mills(self, board) -> int:
+        """
+        Returns the number of possible mills on the board where the position is empty
+        """
+        possible_mills = 0
+        for location, piece in enumerate(board):
+            if piece == 'x':
+                possible_mills = possible_mills + 1 if self.improved_mill(location, board, 'W') else possible_mills
+        return possible_mills
+
+    def total_corners_available(self, board) -> int:
+        total_corners = 0
+        corners = [0, 1, 18, 20]
+        for location, piece in enumerate(board):
+            if location in corners and piece == 'x':
+                total_corners += 1
+        return total_corners
+
+    def static_estimation_opening_improved(self, board) -> int:
+        """
+        Returns the static estimation of the board during the opening phase
+        """
+        white_pieces, black_pieces = board.count('W'), board.count('B')
+        corners = [0, 18, 20, 1]
+        corner_bonus = 0
+
+        try:
+            for corner in corners:
+                if board[corner] == 'W':
+                    corner_bonus += 1
+                elif board[corner] == 'B':
+                    corner_bonus -= 1
+
+            return white_pieces - black_pieces + corner_bonus
+        except:
+            return white_pieces - black_pieces
+
+    def static_estimation_midgame_endgame_improved(self, board) -> int:
+        """
+        Returns the improved static estimation of the board during the midgame and endgame phase
+        """
+        white_pieces, black_pieces = board.count('W'), board.count('B')
+        black_moves = len(self.generate_black_moves(board))
+        if black_pieces <= 2:
+            return 5000
+        elif white_pieces <= 2:
+            return -5000
+        elif black_moves == 0:
+            return 5000
+        else:
+            return 500 * (white_pieces - black_pieces) - black_moves + 250 * self.count_mills(board)
+
 class Debug():
     def __init__(self) -> None:
         pass
 
-    # Draw the board
     def draw(self, board) -> str:
+        """
+        Draws the board in the console
+        """
         return dedent(f"""\
             {board[18]}--------{board[19]}--------{board[20]}
             |        |        |

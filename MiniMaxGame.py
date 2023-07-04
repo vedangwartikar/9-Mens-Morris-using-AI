@@ -13,6 +13,9 @@ class MiniMaxGame:
         self.black = Black()
 
     def MaxMin(self, board, depth):
+        """
+        MaxMin function for MiniMax algorithm for Midgame and Endgame phase
+        """
         minmax = maxmin = ''
         if depth:
             v = -math.inf
@@ -29,6 +32,9 @@ class MiniMaxGame:
         return board
 
     def MinMax(self, board, depth):
+        """
+        MinMax function for MiniMax algorithm for Midgame and Endgame phase
+        """
         minmax = maxmin = ''
         if depth:
             v = math.inf
@@ -44,6 +50,8 @@ class MiniMaxGame:
         return board
 
 if __name__ == '__main__':
+    
+    # Parse the command line arguments using argparse module
     parser = argparse.ArgumentParser(description = 'Generates the next move for White player using MiniMax algorithm')
     parser.add_argument('input_file', type=str, metavar='board1.txt', help='Input File Name')
     parser.add_argument('output_file', type=str, metavar='board2.txt', help='Output File Name')
@@ -67,6 +75,7 @@ if __name__ == '__main__':
         minmaxgame = MiniMaxGame()
         output_board = minmaxgame.MaxMin(board, depth)
 
+        # Print the board if the debug parameter flag is set
         if args.print_board:
             print(f'Input Board:\n{ debug.draw(board) }')
             print(f'Output Board:\n{ debug.draw(output_board) }')

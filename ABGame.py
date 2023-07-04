@@ -13,6 +13,9 @@ class ABGame:
         self.black = Black()
 
     def MaxMin(self, board, depth, alpha, beta):
+        """
+        MaxMin function of the Alpha-Beta Pruning algorithm for midgame and endgame phase
+        """
         minmax = maxmin = ''
         if depth:
             v = -math.inf
@@ -33,6 +36,9 @@ class ABGame:
         return board
 
     def MinMax(self, board, depth, alpha, beta):
+        """
+        MinMax function of the Alpha-Beta Pruning algorithm for midgame and endgame phase
+        """
         minmax = maxmin = ''
         if depth:
             v = math.inf
@@ -52,6 +58,8 @@ class ABGame:
         return board
 
 if __name__ == '__main__':
+
+    # Parse the command line arguments using argparse module
     parser = argparse.ArgumentParser(description = 'Generates the next move for White player using MiniMax algorithm')
     parser.add_argument('input_file', type=str, metavar='board1.txt', help='Input File Name')
     parser.add_argument('output_file', type=str, metavar='board2.txt', help='Output File Name')
@@ -73,9 +81,13 @@ if __name__ == '__main__':
             exit(1)
         
         abgame = ABGame()
+
+        # Initialize the alpha and beta values to -inf and +inf respectively
         alpha, beta = -math.inf, math.inf
+
         output_board = abgame.MaxMin(board, depth, alpha, beta)
 
+        # Print the board if the debug flag parameter is set
         if args.print_board:
             print(f'Input Board:\n{ debug.draw(board) }')
             print(f'Output Board:\n{ debug.draw(output_board) }')

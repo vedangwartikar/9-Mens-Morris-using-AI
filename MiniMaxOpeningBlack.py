@@ -13,6 +13,9 @@ class MiniMaxOpeningBlack:
         self.black = Black()
 
     def MaxMin(self, board, depth):
+        """
+        MaxMin function of MiniMax algorithm for opening game for black player
+        """
         maxmin = minmax = ''
         if depth:
             v = -math.inf
@@ -29,6 +32,9 @@ class MiniMaxOpeningBlack:
         return board
 
     def MinMax(self, board, depth):
+        """
+        MinMax function of MiniMax algorithm for opening game for black player
+        """
         minmax = maxmin = ''
         if depth:
             v = math.inf
@@ -44,6 +50,8 @@ class MiniMaxOpeningBlack:
         return board
 
 if __name__ == '__main__':
+
+    # Parse the command line arguments using argparse module
     parser = argparse.ArgumentParser(description = 'Generates the next move for White player using MiniMax algorithm')
     parser.add_argument('input_file', type=str, metavar='board1.txt', help='Input File Name')
     parser.add_argument('output_file', type=str, metavar='board2.txt', help='Output File Name')
@@ -71,7 +79,7 @@ if __name__ == '__main__':
         play_intermediate_for_white = minimaxopeningblack.MaxMin(input_board_swap, depth)
         output_board = black.board_swapper(play_intermediate_for_white)
 
-
+        # Print the board if the debug flag parameter is set
         if args.print_board:
             print(f'Input Board:\n{ debug.draw(board) }')
             print(f'Output Board:\n{ debug.draw(output_board) }')

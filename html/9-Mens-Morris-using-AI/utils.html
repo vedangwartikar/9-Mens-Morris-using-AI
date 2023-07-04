@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>9-Mens-Morris-using-AI.utils API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>9-Mens-Morris-using-AI.utils</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import re
+from textwrap import dedent
+
+class Board:
+    def __init__(self) -&gt; None:
+        pass
+    
+    # Return the neighbors of a given position
+    def neighbors(self, location) -&gt; list:
+        &#34;&#34;&#34;
+        Return the list of neighbors of a given position
+        &#34;&#34;&#34;
+        if location == 0:
+            return [1, 6]
+        elif location == 1:
+            return [0, 11]
+        elif location == 2:
+            return [3, 7]
+        elif location == 3:
+            return [2, 10]
+        elif location == 4:
+            return [5, 8]
+        elif location == 5:
+            return [4, 9]
+        elif location == 6:
+            return [0, 7, 18]
+        elif location == 7:
+            return [2, 6, 8, 15]
+        elif location == 8:
+            return [4, 7, 12]
+        elif location == 9:
+            return  [5, 10, 14]
+        elif location == 10:
+            return [3, 9, 11, 17]
+        elif location == 11:
+            return [1, 10, 20]
+        elif location == 12:
+            return [8, 13]
+        elif location == 13:
+            return [12, 14, 16]
+        elif location == 14:
+            return [9, 13]
+        elif location == 15:
+            return [7, 16]
+        elif location == 16:
+            return [13, 15, 17, 19]
+        elif location == 17:
+            return [10, 16]
+        elif location == 18:
+            return [6, 19]
+        elif location == 19:
+            return [16, 18, 20]
+        elif location == 20:
+            return [11, 19]
+        return []
+
+    # Return True if the location closes a mill else False
+    def closeMill(self, location, board) -&gt; bool:
+        check_mill = board[location]
+        if board[location] in (&#39;W&#39;, &#39;B&#39;):
+            if location == 0:
+                return True if board[6] == check_mill and board[18] == check_mill else False
+            elif location == 1:
+                return True if board[11] == check_mill and board[20] == check_mill else False
+            elif location == 2:
+                return True if board[7] == check_mill and board[15] == check_mill else False
+            elif location == 3:
+                return True if board[10] == check_mill and board[17] == check_mill else False
+            elif location == 4:
+                return True if board[8] == check_mill and board[12] == check_mill else False
+            elif location == 5:
+                return True if board[9] == check_mill and board[14] == check_mill else False
+            elif location == 6:
+                return True if ((board[0] == check_mill and board[18] == check_mill) or (board[7] == check_mill and board[8] == check_mill)) else False
+            elif location == 7:
+                return True if ((board[2] == check_mill and board[15] == check_mill) or (board[6] == check_mill and board[8] == check_mill)) else False
+            elif location == 8:
+                return True if ((board[4] == check_mill and board[12] == check_mill) or (board[6] == check_mill and board[7] == check_mill)) else False
+            elif location == 9:
+                return True if ((board[5] == check_mill and board[14] == check_mill) or (board[10] == check_mill and board[11] == check_mill)) else False
+            elif location == 10:
+                return True if ((board[3] == check_mill and board[17] == check_mill) or (board[9] == check_mill and board[11] == check_mill)) else False
+            elif location == 11:
+                return True if ((board[1] == check_mill and board[20] == check_mill) or (board[9] == check_mill and board[10] == check_mill)) else False
+            elif location == 12:
+                return True if ((board[4] == check_mill and board[8] == check_mill) or (board[13] == check_mill and board[14] == check_mill)) else False
+            elif location == 13:
+                return True if ((board[12] == check_mill and board[14] == check_mill) or (board[16] == check_mill and board[19] == check_mill)) else False
+            elif location == 14:
+                return True if ((board[5] == check_mill and board[9] == check_mill) or (board[12] == check_mill and board[13] == check_mill)) else False
+            elif location == 15:
+                return True if ((board[2] == check_mill and board[7] == check_mill) or (board[16] == check_mill and board[17] == check_mill)) else False
+            elif location == 16:
+                return True if ((board[13] == check_mill and board[19] == check_mill) or (board[15] == check_mill and board[17] == check_mill)) else False
+            elif location == 17:
+                return True if ((board[3] == check_mill and board[10] == check_mill) or (board[15] == check_mill and board[16] == check_mill)) else False
+            elif location == 18:
+                return True if ((board[0] == check_mill and board[6] == check_mill) or (board[19] == check_mill and board[20] == check_mill)) else False
+            elif location == 19:
+                return True if ((board[16] == check_mill and board[13] == check_mill) or (board[18] == check_mill and board[20] == check_mill)) else False
+            elif location == 20:
+                return True if ((board[1] == check_mill and board[11] == check_mill) or (board[18] == check_mill and board[19] == check_mill)) else False
+            else:
+                return False
+        return False     
+
+    def generate_remove(self, board, move_list) -&gt; list:
+        no_positions_added = True
+        for location, piece in enumerate(board):
+            if piece == &#39;B&#39;:
+                if not self.closeMill(location, board):
+                    temp_board = list(board)
+                    temp_board[location] = &#39;x&#39;
+                    temp_board = &#39;&#39;.join(temp_board)
+                    move_list.append(temp_board)
+                    no_positions_added = False
+        if no_positions_added:
+            move_list.append(board)
+        return move_list
+
+    def generate_move(self, board) -&gt; list:
+        move_list = list()
+        for location, piece in enumerate(board):
+            if piece == &#39;W&#39;:
+                neighbors_list = self.neighbors(location)
+                for neighbor in neighbors_list:
+                    if board[neighbor] == &#39;x&#39;:
+                        temp_board = list(board)
+                        temp_board[location], temp_board[neighbor] = &#39;x&#39;, &#39;W&#39;
+                        temp_board = &#39;&#39;.join(temp_board)
+                        if self.closeMill(neighbor, temp_board):
+                            self.generate_remove(temp_board, move_list)
+                        else:
+                            move_list.append(temp_board)
+        return move_list
+
+    def generate_add(self, board) -&gt; list:
+        add_list = list()
+        for location, piece in enumerate(board):
+            if piece == &#39;x&#39;:
+                temp_board = list(board)
+                temp_board[location] = &#39;W&#39;
+                temp_board = &#39;&#39;.join(temp_board)
+                if self.closeMill(location, temp_board):
+                    self.generate_remove(temp_board, add_list)
+                else:
+                    add_list.append(temp_board)
+        return add_list
+
+    def generate_moves_opening(self, board) -&gt; str:
+        return self.generate_add(board)
+
+    def generate_hopping(self, board) -&gt; list:
+        hop_list = list()
+        for location_i, piece_i in enumerate(board):
+            if piece_i == &#39;W&#39;:
+                for location_j, piece_j in enumerate(board):
+                    if piece_j == &#39;x&#39;:
+                        temp_board = list(board)
+                        temp_board[location_i], temp_board[location_j] = &#39;x&#39;, &#39;W&#39;
+                        temp_board = &#39;&#39;.join(temp_board)
+                        if self.closeMill(location_j, temp_board):
+                            self.generate_remove(temp_board, hop_list)
+                        else:
+                            hop_list.append(temp_board)
+        return hop_list
+
+    def generate_moves_midgame_endgame(self, board) -&gt; str:
+        if board.count(&#39;W&#39;) == 3:
+            return self.generate_hopping(board)
+        else:
+            return self.generate_move(board)
+
+class Black(Board):
+    def __init__(self) -&gt; None:
+        super().__init__()
+
+    def board_swapper(self, board) -&gt; str:
+        return re.sub(r&#39;(W)|(B)&#39;, lambda match: &#39;B&#39; if match.group(1) else &#39;W&#39;, board)
+
+    def generate_black_moves(self, board) -&gt; list:
+        black_moves, result = list(), list()
+        swapped_board = self.board_swapper(board)
+        black_moves = self.generate_moves_midgame_endgame(swapped_board)
+        for move in black_moves:
+            swapped_move = self.board_swapper(move)
+            result.append(swapped_move)
+        return result
+
+    
+class StaticEstimation(Black):
+    def __init__(self) -&gt; None:
+        super().__init__()
+
+    def static_estimation_opening(self, board) -&gt; int:
+        white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+        return white_pieces - black_pieces
+
+    def static_estimation_midgame_endgame(self, board):
+        white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+        black_moves = len(self.generate_black_moves(board))
+        if black_pieces &lt;= 2:
+            return 10000
+        elif white_pieces &lt;= 2:
+            return -10000
+        elif black_moves == 0:
+            return 10000
+        else:
+            return 1000 * (white_pieces - black_pieces) - black_moves
+
+class StaticEstimationImproved(Black):
+    def __init__(self) -&gt; None:
+        super().__init__()
+
+    def static_estimation_opening_improved(self, board) -&gt; int:
+        white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+        white_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;WWW&#39;])
+        black_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;BBB&#39;])
+        return (white_pieces - black_pieces) + (2 * (white_mills - black_mills))
+
+    def static_estimation_midgame_endgame_improved(self, board):
+        white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+        white_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;WWW&#39;])
+        black_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;BBB&#39;])
+        black_moves = len(self.generate_black_moves(board))
+        black_blocked = sum([1 for i in range(len(board)) if board[i] == &#39;B&#39; and &#39;x&#39; not in board[max(0, i-1):i+2]])
+        if black_pieces &lt;= 2 or black_moves == 0:
+            return 5000
+        elif white_pieces &lt;= 2:
+            return -5000
+        else:
+            return 500 * (white_pieces - black_pieces) + 500 * (white_mills - black_mills) - black_moves - black_blocked
+
+class Debug():
+    def __init__(self) -&gt; None:
+        pass
+
+    # Draw the board
+    def draw(self, board) -&gt; str:
+        return dedent(f&#34;&#34;&#34;\
+            {board[18]}--------{board[19]}--------{board[20]}
+            |        |        |
+            |  {board[15]}-----{board[16]}-----{board[17]}  |
+            |  |     |     |  |
+            |  |  {board[12]}--{board[13]}--{board[14]}  |  |
+            |  |  |     |  |  |
+            {board[6]}--{board[7]}--{board[8]}     {board[9]}--{board[10]}--{board[11]}
+            |  |  |     |  |  |
+            |  |  {board[4]}-----{board[5]}  |  |
+            |  |           |  |
+            |  {board[2]}-----------{board[3]}  |
+            |                 |
+            {board[0]}-----------------{board[1]}\
+            &#34;&#34;&#34;)
+
+
+if __name__ == &#34;__main__&#34;:
+    pass</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="9-Mens-Morris-using-AI.utils.Black"><code class="flex name class">
+<span>class <span class="ident">Black</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Black(Board):
+    def __init__(self) -&gt; None:
+        super().__init__()
+
+    def board_swapper(self, board) -&gt; str:
+        return re.sub(r&#39;(W)|(B)&#39;, lambda match: &#39;B&#39; if match.group(1) else &#39;W&#39;, board)
+
+    def generate_black_moves(self, board) -&gt; list:
+        black_moves, result = list(), list()
+        swapped_board = self.board_swapper(board)
+        black_moves = self.generate_moves_midgame_endgame(swapped_board)
+        for move in black_moves:
+            swapped_move = self.board_swapper(move)
+            result.append(swapped_move)
+        return result</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="9-Mens-Morris-using-AI.utils.Board" href="#9-Mens-Morris-using-AI.utils.Board">Board</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="9-Mens-Morris-using-AI.utils.StaticEstimation" href="#9-Mens-Morris-using-AI.utils.StaticEstimation">StaticEstimation</a></li>
+<li><a title="9-Mens-Morris-using-AI.utils.StaticEstimationImproved" href="#9-Mens-Morris-using-AI.utils.StaticEstimationImproved">StaticEstimationImproved</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="9-Mens-Morris-using-AI.utils.Black.board_swapper"><code class="name flex">
+<span>def <span class="ident">board_swapper</span></span>(<span>self, board) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def board_swapper(self, board) -&gt; str:
+    return re.sub(r&#39;(W)|(B)&#39;, lambda match: &#39;B&#39; if match.group(1) else &#39;W&#39;, board)</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Black.generate_black_moves"><code class="name flex">
+<span>def <span class="ident">generate_black_moves</span></span>(<span>self, board) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_black_moves(self, board) -&gt; list:
+    black_moves, result = list(), list()
+    swapped_board = self.board_swapper(board)
+    black_moves = self.generate_moves_midgame_endgame(swapped_board)
+    for move in black_moves:
+        swapped_move = self.board_swapper(move)
+        result.append(swapped_move)
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="9-Mens-Morris-using-AI.utils.Board" href="#9-Mens-Morris-using-AI.utils.Board">Board</a></b></code>:
+<ul class="hlist">
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.neighbors" href="#9-Mens-Morris-using-AI.utils.Board.neighbors">neighbors</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Board"><code class="flex name class">
+<span>class <span class="ident">Board</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Board:
+    def __init__(self) -&gt; None:
+        pass
+    
+    # Return the neighbors of a given position
+    def neighbors(self, location) -&gt; list:
+        &#34;&#34;&#34;
+        Return the list of neighbors of a given position
+        &#34;&#34;&#34;
+        if location == 0:
+            return [1, 6]
+        elif location == 1:
+            return [0, 11]
+        elif location == 2:
+            return [3, 7]
+        elif location == 3:
+            return [2, 10]
+        elif location == 4:
+            return [5, 8]
+        elif location == 5:
+            return [4, 9]
+        elif location == 6:
+            return [0, 7, 18]
+        elif location == 7:
+            return [2, 6, 8, 15]
+        elif location == 8:
+            return [4, 7, 12]
+        elif location == 9:
+            return  [5, 10, 14]
+        elif location == 10:
+            return [3, 9, 11, 17]
+        elif location == 11:
+            return [1, 10, 20]
+        elif location == 12:
+            return [8, 13]
+        elif location == 13:
+            return [12, 14, 16]
+        elif location == 14:
+            return [9, 13]
+        elif location == 15:
+            return [7, 16]
+        elif location == 16:
+            return [13, 15, 17, 19]
+        elif location == 17:
+            return [10, 16]
+        elif location == 18:
+            return [6, 19]
+        elif location == 19:
+            return [16, 18, 20]
+        elif location == 20:
+            return [11, 19]
+        return []
+
+    # Return True if the location closes a mill else False
+    def closeMill(self, location, board) -&gt; bool:
+        check_mill = board[location]
+        if board[location] in (&#39;W&#39;, &#39;B&#39;):
+            if location == 0:
+                return True if board[6] == check_mill and board[18] == check_mill else False
+            elif location == 1:
+                return True if board[11] == check_mill and board[20] == check_mill else False
+            elif location == 2:
+                return True if board[7] == check_mill and board[15] == check_mill else False
+            elif location == 3:
+                return True if board[10] == check_mill and board[17] == check_mill else False
+            elif location == 4:
+                return True if board[8] == check_mill and board[12] == check_mill else False
+            elif location == 5:
+                return True if board[9] == check_mill and board[14] == check_mill else False
+            elif location == 6:
+                return True if ((board[0] == check_mill and board[18] == check_mill) or (board[7] == check_mill and board[8] == check_mill)) else False
+            elif location == 7:
+                return True if ((board[2] == check_mill and board[15] == check_mill) or (board[6] == check_mill and board[8] == check_mill)) else False
+            elif location == 8:
+                return True if ((board[4] == check_mill and board[12] == check_mill) or (board[6] == check_mill and board[7] == check_mill)) else False
+            elif location == 9:
+                return True if ((board[5] == check_mill and board[14] == check_mill) or (board[10] == check_mill and board[11] == check_mill)) else False
+            elif location == 10:
+                return True if ((board[3] == check_mill and board[17] == check_mill) or (board[9] == check_mill and board[11] == check_mill)) else False
+            elif location == 11:
+                return True if ((board[1] == check_mill and board[20] == check_mill) or (board[9] == check_mill and board[10] == check_mill)) else False
+            elif location == 12:
+                return True if ((board[4] == check_mill and board[8] == check_mill) or (board[13] == check_mill and board[14] == check_mill)) else False
+            elif location == 13:
+                return True if ((board[12] == check_mill and board[14] == check_mill) or (board[16] == check_mill and board[19] == check_mill)) else False
+            elif location == 14:
+                return True if ((board[5] == check_mill and board[9] == check_mill) or (board[12] == check_mill and board[13] == check_mill)) else False
+            elif location == 15:
+                return True if ((board[2] == check_mill and board[7] == check_mill) or (board[16] == check_mill and board[17] == check_mill)) else False
+            elif location == 16:
+                return True if ((board[13] == check_mill and board[19] == check_mill) or (board[15] == check_mill and board[17] == check_mill)) else False
+            elif location == 17:
+                return True if ((board[3] == check_mill and board[10] == check_mill) or (board[15] == check_mill and board[16] == check_mill)) else False
+            elif location == 18:
+                return True if ((board[0] == check_mill and board[6] == check_mill) or (board[19] == check_mill and board[20] == check_mill)) else False
+            elif location == 19:
+                return True if ((board[16] == check_mill and board[13] == check_mill) or (board[18] == check_mill and board[20] == check_mill)) else False
+            elif location == 20:
+                return True if ((board[1] == check_mill and board[11] == check_mill) or (board[18] == check_mill and board[19] == check_mill)) else False
+            else:
+                return False
+        return False     
+
+    def generate_remove(self, board, move_list) -&gt; list:
+        no_positions_added = True
+        for location, piece in enumerate(board):
+            if piece == &#39;B&#39;:
+                if not self.closeMill(location, board):
+                    temp_board = list(board)
+                    temp_board[location] = &#39;x&#39;
+                    temp_board = &#39;&#39;.join(temp_board)
+                    move_list.append(temp_board)
+                    no_positions_added = False
+        if no_positions_added:
+            move_list.append(board)
+        return move_list
+
+    def generate_move(self, board) -&gt; list:
+        move_list = list()
+        for location, piece in enumerate(board):
+            if piece == &#39;W&#39;:
+                neighbors_list = self.neighbors(location)
+                for neighbor in neighbors_list:
+                    if board[neighbor] == &#39;x&#39;:
+                        temp_board = list(board)
+                        temp_board[location], temp_board[neighbor] = &#39;x&#39;, &#39;W&#39;
+                        temp_board = &#39;&#39;.join(temp_board)
+                        if self.closeMill(neighbor, temp_board):
+                            self.generate_remove(temp_board, move_list)
+                        else:
+                            move_list.append(temp_board)
+        return move_list
+
+    def generate_add(self, board) -&gt; list:
+        add_list = list()
+        for location, piece in enumerate(board):
+            if piece == &#39;x&#39;:
+                temp_board = list(board)
+                temp_board[location] = &#39;W&#39;
+                temp_board = &#39;&#39;.join(temp_board)
+                if self.closeMill(location, temp_board):
+                    self.generate_remove(temp_board, add_list)
+                else:
+                    add_list.append(temp_board)
+        return add_list
+
+    def generate_moves_opening(self, board) -&gt; str:
+        return self.generate_add(board)
+
+    def generate_hopping(self, board) -&gt; list:
+        hop_list = list()
+        for location_i, piece_i in enumerate(board):
+            if piece_i == &#39;W&#39;:
+                for location_j, piece_j in enumerate(board):
+                    if piece_j == &#39;x&#39;:
+                        temp_board = list(board)
+                        temp_board[location_i], temp_board[location_j] = &#39;x&#39;, &#39;W&#39;
+                        temp_board = &#39;&#39;.join(temp_board)
+                        if self.closeMill(location_j, temp_board):
+                            self.generate_remove(temp_board, hop_list)
+                        else:
+                            hop_list.append(temp_board)
+        return hop_list
+
+    def generate_moves_midgame_endgame(self, board) -&gt; str:
+        if board.count(&#39;W&#39;) == 3:
+            return self.generate_hopping(board)
+        else:
+            return self.generate_move(board)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="9-Mens-Morris-using-AI.utils.Black" href="#9-Mens-Morris-using-AI.utils.Black">Black</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="9-Mens-Morris-using-AI.utils.Board.closeMill"><code class="name flex">
+<span>def <span class="ident">closeMill</span></span>(<span>self, location, board) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def closeMill(self, location, board) -&gt; bool:
+    check_mill = board[location]
+    if board[location] in (&#39;W&#39;, &#39;B&#39;):
+        if location == 0:
+            return True if board[6] == check_mill and board[18] == check_mill else False
+        elif location == 1:
+            return True if board[11] == check_mill and board[20] == check_mill else False
+        elif location == 2:
+            return True if board[7] == check_mill and board[15] == check_mill else False
+        elif location == 3:
+            return True if board[10] == check_mill and board[17] == check_mill else False
+        elif location == 4:
+            return True if board[8] == check_mill and board[12] == check_mill else False
+        elif location == 5:
+            return True if board[9] == check_mill and board[14] == check_mill else False
+        elif location == 6:
+            return True if ((board[0] == check_mill and board[18] == check_mill) or (board[7] == check_mill and board[8] == check_mill)) else False
+        elif location == 7:
+            return True if ((board[2] == check_mill and board[15] == check_mill) or (board[6] == check_mill and board[8] == check_mill)) else False
+        elif location == 8:
+            return True if ((board[4] == check_mill and board[12] == check_mill) or (board[6] == check_mill and board[7] == check_mill)) else False
+        elif location == 9:
+            return True if ((board[5] == check_mill and board[14] == check_mill) or (board[10] == check_mill and board[11] == check_mill)) else False
+        elif location == 10:
+            return True if ((board[3] == check_mill and board[17] == check_mill) or (board[9] == check_mill and board[11] == check_mill)) else False
+        elif location == 11:
+            return True if ((board[1] == check_mill and board[20] == check_mill) or (board[9] == check_mill and board[10] == check_mill)) else False
+        elif location == 12:
+            return True if ((board[4] == check_mill and board[8] == check_mill) or (board[13] == check_mill and board[14] == check_mill)) else False
+        elif location == 13:
+            return True if ((board[12] == check_mill and board[14] == check_mill) or (board[16] == check_mill and board[19] == check_mill)) else False
+        elif location == 14:
+            return True if ((board[5] == check_mill and board[9] == check_mill) or (board[12] == check_mill and board[13] == check_mill)) else False
+        elif location == 15:
+            return True if ((board[2] == check_mill and board[7] == check_mill) or (board[16] == check_mill and board[17] == check_mill)) else False
+        elif location == 16:
+            return True if ((board[13] == check_mill and board[19] == check_mill) or (board[15] == check_mill and board[17] == check_mill)) else False
+        elif location == 17:
+            return True if ((board[3] == check_mill and board[10] == check_mill) or (board[15] == check_mill and board[16] == check_mill)) else False
+        elif location == 18:
+            return True if ((board[0] == check_mill and board[6] == check_mill) or (board[19] == check_mill and board[20] == check_mill)) else False
+        elif location == 19:
+            return True if ((board[16] == check_mill and board[13] == check_mill) or (board[18] == check_mill and board[20] == check_mill)) else False
+        elif location == 20:
+            return True if ((board[1] == check_mill and board[11] == check_mill) or (board[18] == check_mill and board[19] == check_mill)) else False
+        else:
+            return False
+    return False     </code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Board.generate_add"><code class="name flex">
+<span>def <span class="ident">generate_add</span></span>(<span>self, board) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_add(self, board) -&gt; list:
+    add_list = list()
+    for location, piece in enumerate(board):
+        if piece == &#39;x&#39;:
+            temp_board = list(board)
+            temp_board[location] = &#39;W&#39;
+            temp_board = &#39;&#39;.join(temp_board)
+            if self.closeMill(location, temp_board):
+                self.generate_remove(temp_board, add_list)
+            else:
+                add_list.append(temp_board)
+    return add_list</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Board.generate_hopping"><code class="name flex">
+<span>def <span class="ident">generate_hopping</span></span>(<span>self, board) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_hopping(self, board) -&gt; list:
+    hop_list = list()
+    for location_i, piece_i in enumerate(board):
+        if piece_i == &#39;W&#39;:
+            for location_j, piece_j in enumerate(board):
+                if piece_j == &#39;x&#39;:
+                    temp_board = list(board)
+                    temp_board[location_i], temp_board[location_j] = &#39;x&#39;, &#39;W&#39;
+                    temp_board = &#39;&#39;.join(temp_board)
+                    if self.closeMill(location_j, temp_board):
+                        self.generate_remove(temp_board, hop_list)
+                    else:
+                        hop_list.append(temp_board)
+    return hop_list</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Board.generate_move"><code class="name flex">
+<span>def <span class="ident">generate_move</span></span>(<span>self, board) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_move(self, board) -&gt; list:
+    move_list = list()
+    for location, piece in enumerate(board):
+        if piece == &#39;W&#39;:
+            neighbors_list = self.neighbors(location)
+            for neighbor in neighbors_list:
+                if board[neighbor] == &#39;x&#39;:
+                    temp_board = list(board)
+                    temp_board[location], temp_board[neighbor] = &#39;x&#39;, &#39;W&#39;
+                    temp_board = &#39;&#39;.join(temp_board)
+                    if self.closeMill(neighbor, temp_board):
+                        self.generate_remove(temp_board, move_list)
+                    else:
+                        move_list.append(temp_board)
+    return move_list</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Board.generate_moves_midgame_endgame"><code class="name flex">
+<span>def <span class="ident">generate_moves_midgame_endgame</span></span>(<span>self, board) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_moves_midgame_endgame(self, board) -&gt; str:
+    if board.count(&#39;W&#39;) == 3:
+        return self.generate_hopping(board)
+    else:
+        return self.generate_move(board)</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Board.generate_moves_opening"><code class="name flex">
+<span>def <span class="ident">generate_moves_opening</span></span>(<span>self, board) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_moves_opening(self, board) -&gt; str:
+    return self.generate_add(board)</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Board.generate_remove"><code class="name flex">
+<span>def <span class="ident">generate_remove</span></span>(<span>self, board, move_list) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_remove(self, board, move_list) -&gt; list:
+    no_positions_added = True
+    for location, piece in enumerate(board):
+        if piece == &#39;B&#39;:
+            if not self.closeMill(location, board):
+                temp_board = list(board)
+                temp_board[location] = &#39;x&#39;
+                temp_board = &#39;&#39;.join(temp_board)
+                move_list.append(temp_board)
+                no_positions_added = False
+    if no_positions_added:
+        move_list.append(board)
+    return move_list</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Board.neighbors"><code class="name flex">
+<span>def <span class="ident">neighbors</span></span>(<span>self, location) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return the list of neighbors of a given position</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def neighbors(self, location) -&gt; list:
+    &#34;&#34;&#34;
+    Return the list of neighbors of a given position
+    &#34;&#34;&#34;
+    if location == 0:
+        return [1, 6]
+    elif location == 1:
+        return [0, 11]
+    elif location == 2:
+        return [3, 7]
+    elif location == 3:
+        return [2, 10]
+    elif location == 4:
+        return [5, 8]
+    elif location == 5:
+        return [4, 9]
+    elif location == 6:
+        return [0, 7, 18]
+    elif location == 7:
+        return [2, 6, 8, 15]
+    elif location == 8:
+        return [4, 7, 12]
+    elif location == 9:
+        return  [5, 10, 14]
+    elif location == 10:
+        return [3, 9, 11, 17]
+    elif location == 11:
+        return [1, 10, 20]
+    elif location == 12:
+        return [8, 13]
+    elif location == 13:
+        return [12, 14, 16]
+    elif location == 14:
+        return [9, 13]
+    elif location == 15:
+        return [7, 16]
+    elif location == 16:
+        return [13, 15, 17, 19]
+    elif location == 17:
+        return [10, 16]
+    elif location == 18:
+        return [6, 19]
+    elif location == 19:
+        return [16, 18, 20]
+    elif location == 20:
+        return [11, 19]
+    return []</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.Debug"><code class="flex name class">
+<span>class <span class="ident">Debug</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Debug():
+    def __init__(self) -&gt; None:
+        pass
+
+    # Draw the board
+    def draw(self, board) -&gt; str:
+        return dedent(f&#34;&#34;&#34;\
+            {board[18]}--------{board[19]}--------{board[20]}
+            |        |        |
+            |  {board[15]}-----{board[16]}-----{board[17]}  |
+            |  |     |     |  |
+            |  |  {board[12]}--{board[13]}--{board[14]}  |  |
+            |  |  |     |  |  |
+            {board[6]}--{board[7]}--{board[8]}     {board[9]}--{board[10]}--{board[11]}
+            |  |  |     |  |  |
+            |  |  {board[4]}-----{board[5]}  |  |
+            |  |           |  |
+            |  {board[2]}-----------{board[3]}  |
+            |                 |
+            {board[0]}-----------------{board[1]}\
+            &#34;&#34;&#34;)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="9-Mens-Morris-using-AI.utils.Debug.draw"><code class="name flex">
+<span>def <span class="ident">draw</span></span>(<span>self, board) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw(self, board) -&gt; str:
+    return dedent(f&#34;&#34;&#34;\
+        {board[18]}--------{board[19]}--------{board[20]}
+        |        |        |
+        |  {board[15]}-----{board[16]}-----{board[17]}  |
+        |  |     |     |  |
+        |  |  {board[12]}--{board[13]}--{board[14]}  |  |
+        |  |  |     |  |  |
+        {board[6]}--{board[7]}--{board[8]}     {board[9]}--{board[10]}--{board[11]}
+        |  |  |     |  |  |
+        |  |  {board[4]}-----{board[5]}  |  |
+        |  |           |  |
+        |  {board[2]}-----------{board[3]}  |
+        |                 |
+        {board[0]}-----------------{board[1]}\
+        &#34;&#34;&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.StaticEstimation"><code class="flex name class">
+<span>class <span class="ident">StaticEstimation</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class StaticEstimation(Black):
+    def __init__(self) -&gt; None:
+        super().__init__()
+
+    def static_estimation_opening(self, board) -&gt; int:
+        white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+        return white_pieces - black_pieces
+
+    def static_estimation_midgame_endgame(self, board):
+        white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+        black_moves = len(self.generate_black_moves(board))
+        if black_pieces &lt;= 2:
+            return 10000
+        elif white_pieces &lt;= 2:
+            return -10000
+        elif black_moves == 0:
+            return 10000
+        else:
+            return 1000 * (white_pieces - black_pieces) - black_moves</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="9-Mens-Morris-using-AI.utils.Black" href="#9-Mens-Morris-using-AI.utils.Black">Black</a></li>
+<li><a title="9-Mens-Morris-using-AI.utils.Board" href="#9-Mens-Morris-using-AI.utils.Board">Board</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="9-Mens-Morris-using-AI.utils.StaticEstimation.static_estimation_midgame_endgame"><code class="name flex">
+<span>def <span class="ident">static_estimation_midgame_endgame</span></span>(<span>self, board)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def static_estimation_midgame_endgame(self, board):
+    white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+    black_moves = len(self.generate_black_moves(board))
+    if black_pieces &lt;= 2:
+        return 10000
+    elif white_pieces &lt;= 2:
+        return -10000
+    elif black_moves == 0:
+        return 10000
+    else:
+        return 1000 * (white_pieces - black_pieces) - black_moves</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.StaticEstimation.static_estimation_opening"><code class="name flex">
+<span>def <span class="ident">static_estimation_opening</span></span>(<span>self, board) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def static_estimation_opening(self, board) -&gt; int:
+    white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+    return white_pieces - black_pieces</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="9-Mens-Morris-using-AI.utils.Black" href="#9-Mens-Morris-using-AI.utils.Black">Black</a></b></code>:
+<ul class="hlist">
+<li><code><a title="9-Mens-Morris-using-AI.utils.Black.neighbors" href="#9-Mens-Morris-using-AI.utils.Board.neighbors">neighbors</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.StaticEstimationImproved"><code class="flex name class">
+<span>class <span class="ident">StaticEstimationImproved</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class StaticEstimationImproved(Black):
+    def __init__(self) -&gt; None:
+        super().__init__()
+
+    def static_estimation_opening_improved(self, board) -&gt; int:
+        white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+        white_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;WWW&#39;])
+        black_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;BBB&#39;])
+        return (white_pieces - black_pieces) + (2 * (white_mills - black_mills))
+
+    def static_estimation_midgame_endgame_improved(self, board):
+        white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+        white_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;WWW&#39;])
+        black_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;BBB&#39;])
+        black_moves = len(self.generate_black_moves(board))
+        black_blocked = sum([1 for i in range(len(board)) if board[i] == &#39;B&#39; and &#39;x&#39; not in board[max(0, i-1):i+2]])
+        if black_pieces &lt;= 2 or black_moves == 0:
+            return 5000
+        elif white_pieces &lt;= 2:
+            return -5000
+        else:
+            return 500 * (white_pieces - black_pieces) + 500 * (white_mills - black_mills) - black_moves - black_blocked</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="9-Mens-Morris-using-AI.utils.Black" href="#9-Mens-Morris-using-AI.utils.Black">Black</a></li>
+<li><a title="9-Mens-Morris-using-AI.utils.Board" href="#9-Mens-Morris-using-AI.utils.Board">Board</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="9-Mens-Morris-using-AI.utils.StaticEstimationImproved.static_estimation_midgame_endgame_improved"><code class="name flex">
+<span>def <span class="ident">static_estimation_midgame_endgame_improved</span></span>(<span>self, board)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def static_estimation_midgame_endgame_improved(self, board):
+    white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+    white_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;WWW&#39;])
+    black_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;BBB&#39;])
+    black_moves = len(self.generate_black_moves(board))
+    black_blocked = sum([1 for i in range(len(board)) if board[i] == &#39;B&#39; and &#39;x&#39; not in board[max(0, i-1):i+2]])
+    if black_pieces &lt;= 2 or black_moves == 0:
+        return 5000
+    elif white_pieces &lt;= 2:
+        return -5000
+    else:
+        return 500 * (white_pieces - black_pieces) + 500 * (white_mills - black_mills) - black_moves - black_blocked</code></pre>
+</details>
+</dd>
+<dt id="9-Mens-Morris-using-AI.utils.StaticEstimationImproved.static_estimation_opening_improved"><code class="name flex">
+<span>def <span class="ident">static_estimation_opening_improved</span></span>(<span>self, board) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def static_estimation_opening_improved(self, board) -&gt; int:
+    white_pieces, black_pieces = board.count(&#39;W&#39;), board.count(&#39;B&#39;)
+    white_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;WWW&#39;])
+    black_mills = sum([1 for i in range(0, len(board), 3) if board[i:i+3] == &#39;BBB&#39;])
+    return (white_pieces - black_pieces) + (2 * (white_mills - black_mills))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="9-Mens-Morris-using-AI.utils.Black" href="#9-Mens-Morris-using-AI.utils.Black">Black</a></b></code>:
+<ul class="hlist">
+<li><code><a title="9-Mens-Morris-using-AI.utils.Black.neighbors" href="#9-Mens-Morris-using-AI.utils.Board.neighbors">neighbors</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="9-Mens-Morris-using-AI" href="index.html">9-Mens-Morris-using-AI</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="9-Mens-Morris-using-AI.utils.Black" href="#9-Mens-Morris-using-AI.utils.Black">Black</a></code></h4>
+<ul class="">
+<li><code><a title="9-Mens-Morris-using-AI.utils.Black.board_swapper" href="#9-Mens-Morris-using-AI.utils.Black.board_swapper">board_swapper</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.Black.generate_black_moves" href="#9-Mens-Morris-using-AI.utils.Black.generate_black_moves">generate_black_moves</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="9-Mens-Morris-using-AI.utils.Board" href="#9-Mens-Morris-using-AI.utils.Board">Board</a></code></h4>
+<ul class="">
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.closeMill" href="#9-Mens-Morris-using-AI.utils.Board.closeMill">closeMill</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.generate_add" href="#9-Mens-Morris-using-AI.utils.Board.generate_add">generate_add</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.generate_hopping" href="#9-Mens-Morris-using-AI.utils.Board.generate_hopping">generate_hopping</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.generate_move" href="#9-Mens-Morris-using-AI.utils.Board.generate_move">generate_move</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.generate_moves_midgame_endgame" href="#9-Mens-Morris-using-AI.utils.Board.generate_moves_midgame_endgame">generate_moves_midgame_endgame</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.generate_moves_opening" href="#9-Mens-Morris-using-AI.utils.Board.generate_moves_opening">generate_moves_opening</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.generate_remove" href="#9-Mens-Morris-using-AI.utils.Board.generate_remove">generate_remove</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.Board.neighbors" href="#9-Mens-Morris-using-AI.utils.Board.neighbors">neighbors</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="9-Mens-Morris-using-AI.utils.Debug" href="#9-Mens-Morris-using-AI.utils.Debug">Debug</a></code></h4>
+<ul class="">
+<li><code><a title="9-Mens-Morris-using-AI.utils.Debug.draw" href="#9-Mens-Morris-using-AI.utils.Debug.draw">draw</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="9-Mens-Morris-using-AI.utils.StaticEstimation" href="#9-Mens-Morris-using-AI.utils.StaticEstimation">StaticEstimation</a></code></h4>
+<ul class="">
+<li><code><a title="9-Mens-Morris-using-AI.utils.StaticEstimation.static_estimation_midgame_endgame" href="#9-Mens-Morris-using-AI.utils.StaticEstimation.static_estimation_midgame_endgame">static_estimation_midgame_endgame</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.StaticEstimation.static_estimation_opening" href="#9-Mens-Morris-using-AI.utils.StaticEstimation.static_estimation_opening">static_estimation_opening</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="9-Mens-Morris-using-AI.utils.StaticEstimationImproved" href="#9-Mens-Morris-using-AI.utils.StaticEstimationImproved">StaticEstimationImproved</a></code></h4>
+<ul class="">
+<li><code><a title="9-Mens-Morris-using-AI.utils.StaticEstimationImproved.static_estimation_midgame_endgame_improved" href="#9-Mens-Morris-using-AI.utils.StaticEstimationImproved.static_estimation_midgame_endgame_improved">static_estimation_midgame_endgame_improved</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.utils.StaticEstimationImproved.static_estimation_opening_improved" href="#9-Mens-Morris-using-AI.utils.StaticEstimationImproved.static_estimation_opening_improved">static_estimation_opening_improved</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
