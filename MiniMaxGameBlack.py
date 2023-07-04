@@ -3,7 +3,7 @@ import math
 
 from utils import Board, StaticEstimation, Debug, Black
 
-class MiniMaxOpening:
+class MiniMaxGameBlack:
     def __init__(self):
         self.positions_evaulated = 0
         self.minimax_estimate = 0
@@ -13,13 +13,13 @@ class MiniMaxOpening:
         self.black = Black()
 
     def MaxMin(self, board, depth):
-        maxmin = minmax = ''
+        minmax = maxmin = ''
         if depth:
             v = -math.inf
             depth -= 1
-            for possible_move in self.board_obj.generate_moves_opening(board):
+            for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
                 minmax = self.MinMax(possible_move, depth)
-                static_estimate = self.static_estimation_obj.static_estimation_opening(minmax)
+                static_estimate = self.static_estimation_obj.static_estimation_midgame_endgame(minmax)
                 self.positions_evaulated += 1
                 if v < static_estimate:
                     v = static_estimate
@@ -35,7 +35,7 @@ class MiniMaxOpening:
             depth -= 1
             for possible_move in self.black.generate_black_moves(board):
                 maxmin = self.MaxMin(possible_move, depth)
-                static_estimate = self.static_estimation_obj.static_estimation_opening(maxmin)
+                static_estimate = self.static_estimation_obj.static_estimation_midgame_endgame(maxmin)
                 self.positions_evaulated += 1
                 if v > static_estimate:
                     v = static_estimate
@@ -64,16 +64,20 @@ if __name__ == '__main__':
             print(f'The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.')
             exit(1)
         
-        minimaxopening = MiniMaxOpening()
-        output_board = minimaxopening.MaxMin(board, depth)
+        minimaxgameblack = MiniMaxGameBlack()
+        black = Black()
+
+        input_board_swap = black.board_swapper(board)
+        play_intermediate_for_white = minimaxgameblack.MaxMin(input_board_swap, depth)
+        output_board = black.board_swapper(play_intermediate_for_white)
 
         if args.print_board:
             print(f'Input Board:\n{ debug.draw(board) }')
             print(f'Output Board:\n{ debug.draw(output_board) }')
 
         print(f'Board Position: { output_board }.')
-        print(f'Positions evaluated by static estimation: { minimaxopening.positions_evaulated }.')
-        print(f'MINIMAX estimate: { minimaxopening.minimax_estimate }.')
+        print(f'Positions evaluated by static estimation: { minimaxgameblack.positions_evaulated }.')
+        print(f'MINIMAX estimate: { minimaxgameblack.minimax_estimate }.')
 
         with open(output_file, 'w+') as f:
             f.write(output_board)

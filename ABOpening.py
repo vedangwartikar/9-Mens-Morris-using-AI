@@ -3,7 +3,7 @@ import math
 
 from utils import Board, StaticEstimation, Debug, Black
 
-class MiniMaxOpening:
+class ABOpening:
     def __init__(self):
         self.positions_evaulated = 0
         self.minimax_estimate = 0
@@ -12,34 +12,42 @@ class MiniMaxOpening:
         self.static_estimation_obj = StaticEstimation()
         self.black = Black()
 
-    def MaxMin(self, board, depth):
-        maxmin = minmax = ''
+    def MaxMin(self, board, depth, alpha, beta):
+        minmax = maxmin = ''
         if depth:
             v = -math.inf
             depth -= 1
             for possible_move in self.board_obj.generate_moves_opening(board):
-                minmax = self.MinMax(possible_move, depth)
+                minmax = self.MinMax(possible_move, depth, alpha, beta)
                 static_estimate = self.static_estimation_obj.static_estimation_opening(minmax)
                 self.positions_evaulated += 1
                 if v < static_estimate:
                     v = static_estimate
                     self.minimax_estimate = v
                     maxmin = possible_move
+                if v >= beta:
+                    return maxmin
+                else:
+                    alpha = max(alpha, v)
             return maxmin
         return board
 
-    def MinMax(self, board, depth):
+    def MinMax(self, board, depth, alpha, beta):
         minmax = maxmin = ''
         if depth:
             v = math.inf
             depth -= 1
             for possible_move in self.black.generate_black_moves(board):
-                maxmin = self.MaxMin(possible_move, depth)
+                maxmin = self.MaxMin(possible_move, depth, alpha, beta)
                 static_estimate = self.static_estimation_obj.static_estimation_opening(maxmin)
                 self.positions_evaulated += 1
                 if v > static_estimate:
                     v = static_estimate
                     minmax = possible_move
+                if v <= alpha:
+                    return minmax
+                else:
+                    beta = min(beta, v)
             return minmax
         return board
 
@@ -64,16 +72,17 @@ if __name__ == '__main__':
             print(f'The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.')
             exit(1)
         
-        minimaxopening = MiniMaxOpening()
-        output_board = minimaxopening.MaxMin(board, depth)
+        abopening = ABOpening()
+        alpha, beta = -math.inf, math.inf
+        output_board = abopening.MaxMin(board, depth, alpha, beta)
 
         if args.print_board:
             print(f'Input Board:\n{ debug.draw(board) }')
             print(f'Output Board:\n{ debug.draw(output_board) }')
 
         print(f'Board Position: { output_board }.')
-        print(f'Positions evaluated by static estimation: { minimaxopening.positions_evaulated }.')
-        print(f'MINIMAX estimate: { minimaxopening.minimax_estimate }.')
+        print(f'Positions evaluated by static estimation: { abopening.positions_evaulated }.')
+        print(f'MINIMAX estimate: { abopening.minimax_estimate }.')
 
         with open(output_file, 'w+') as f:
             f.write(output_board)

@@ -13,8 +13,8 @@ class MiniMaxGame:
         self.black = Black()
 
     def MaxMin(self, board, depth):
-        maxmin, minmax = '', ''
-        if depth != 0:
+        minmax = maxmin = ''
+        if depth:
             v = -math.inf
             depth -= 1
             for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
@@ -29,8 +29,8 @@ class MiniMaxGame:
         return board
 
     def MinMax(self, board, depth):
-        minmax, maxmin = '', ''
-        if depth != 0:
+        minmax = maxmin = ''
+        if depth:
             v = math.inf
             depth -= 1
             for possible_move in self.black.generate_black_moves(board):

@@ -3,7 +3,7 @@ import math
 
 from utils import Board, StaticEstimation, Debug, Black
 
-class MiniMaxOpening:
+class MiniMaxOpeningBlack:
     def __init__(self):
         self.positions_evaulated = 0
         self.minimax_estimate = 0
@@ -64,16 +64,21 @@ if __name__ == '__main__':
             print(f'The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.')
             exit(1)
         
-        minimaxopening = MiniMaxOpening()
-        output_board = minimaxopening.MaxMin(board, depth)
+        minimaxopeningblack = MiniMaxOpeningBlack()
+        black = Black()
+
+        input_board_swap = black.board_swapper(board)
+        play_intermediate_for_white = minimaxopeningblack.MaxMin(input_board_swap, depth)
+        output_board = black.board_swapper(play_intermediate_for_white)
+
 
         if args.print_board:
             print(f'Input Board:\n{ debug.draw(board) }')
             print(f'Output Board:\n{ debug.draw(output_board) }')
 
         print(f'Board Position: { output_board }.')
-        print(f'Positions evaluated by static estimation: { minimaxopening.positions_evaulated }.')
-        print(f'MINIMAX estimate: { minimaxopening.minimax_estimate }.')
+        print(f'Positions evaluated by static estimation: { minimaxopeningblack.positions_evaulated }.')
+        print(f'MINIMAX estimate: { minimaxopeningblack.minimax_estimate }.')
 
         with open(output_file, 'w+') as f:
             f.write(output_board)
