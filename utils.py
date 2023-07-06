@@ -200,7 +200,19 @@ class Black(Board):
         """
         return re.sub(r'(W)|(B)', lambda match: 'B' if match.group(1) else 'W', board)
 
-    def generate_black_moves(self, board) -> list:
+    def generate_black_moves_opening(self, board) -> list:
+        """
+        Returns a list of all possible board positions created by a swapped board for playing as black
+        """
+        black_moves, result = list(), list()
+        swapped_board = self.board_swapper(board)
+        black_moves = self.generate_moves_opening(swapped_board)
+        for move in black_moves:
+            swapped_move = self.board_swapper(move)
+            result.append(swapped_move)
+        return result
+
+    def generate_black_moves_midgame_endgame(self, board) -> list:
         """
         Returns a list of all possible board positions created by a swapped board for playing as black
         """
@@ -229,7 +241,7 @@ class StaticEstimation(Black):
         Returns the static estimation of the board during the midgame or endgame phase
         """
         white_pieces, black_pieces = board.count('W'), board.count('B')
-        black_moves = len(self.generate_black_moves(board))
+        black_moves = len(self.generate_black_moves_midgame_endgame(board))
         if black_pieces <= 2:
             return 10000
         elif white_pieces <= 2:
@@ -299,7 +311,7 @@ class StaticEstimationImproved(Black):
         possible_mills = 0
         for location, piece in enumerate(board):
             if piece == 'x':
-                possible_mills = possible_mills + 1 if self.improved_mill(location, board, 'W') else possible_mills
+                possible_mills += 1 if self.improved_mill(location, board, 'W') else possible_mills
         return possible_mills
 
     def total_corners_available(self, board) -> int:
@@ -315,26 +327,24 @@ class StaticEstimationImproved(Black):
         Returns the static estimation of the board during the opening phase
         """
         white_pieces, black_pieces = board.count('W'), board.count('B')
-        corners = [0, 18, 20, 1]
-        corner_bonus = 0
+        major_intersections = [7, 10, 16]
+        intersection_bonus, opponent_mill_bonus = 0, 0
 
-        try:
-            for corner in corners:
-                if board[corner] == 'W':
-                    corner_bonus += 1
-                elif board[corner] == 'B':
-                    corner_bonus -= 1
-
-            return white_pieces - black_pieces + corner_bonus
-        except:
-            return white_pieces - black_pieces
+        if board:
+            for intersection in major_intersections:
+                if board[intersection] == 'W':
+                    intersection_bonus += 1
+            for location, piece in enumerate(board):
+                if piece == 'W':
+                    opponent_mill_bonus = 5 if self.improved_mill(location, board, 'B') else opponent_mill_bonus
+        return white_pieces - black_pieces + opponent_mill_bonus + intersection_bonus
 
     def static_estimation_midgame_endgame_improved(self, board) -> int:
         """
         Returns the improved static estimation of the board during the midgame and endgame phase
         """
         white_pieces, black_pieces = board.count('W'), board.count('B')
-        black_moves = len(self.generate_black_moves(board))
+        black_moves = len(self.generate_black_moves_midgame_endgame(board))
         if black_pieces <= 2:
             return 5000
         elif white_pieces <= 2:
@@ -342,7 +352,7 @@ class StaticEstimationImproved(Black):
         elif black_moves == 0:
             return 5000
         else:
-            return 500 * (white_pieces - black_pieces) - black_moves + 250 * self.count_mills(board)
+            return 500 * (white_pieces - black_pieces) - black_moves + 25 * self.count_mills(board)
 
 class Debug():
     def __init__(self) -> None:

@@ -39,7 +39,7 @@ class MiniMaxOpeningBlack:
         if depth:
             v = math.inf
             depth -= 1
-            for possible_move in self.black.generate_black_moves(board):
+            for possible_move in self.black.generate_black_moves_opening(board):
                 maxmin = self.MaxMin(possible_move, depth)
                 static_estimate = self.static_estimation_obj.static_estimation_opening(maxmin)
                 self.positions_evaulated += 1
@@ -66,7 +66,6 @@ if __name__ == '__main__':
     try:
         with open(input_file, 'r') as f:
             board = f.readline().strip()
-        debug.draw(board)
         board_positions = len(board)
         if board_positions != 21:
             print(f'The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.')
