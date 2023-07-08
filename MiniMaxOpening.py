@@ -13,42 +13,43 @@ class MiniMaxOpening:
         self.static_estimation_obj = StaticEstimation()
         self.black = Black()
 
+        self.final_board = ''
+
     def MaxMin(self, board, depth):
         """
         MaxMin function for MiniMax algorithm for opening game
         """
-        maxmin = minmax = ''
+        # print('yo')
         if depth:
             v = -math.inf
-            depth -= 1
+            # depth -= 1
             for possible_move in self.board_obj.generate_moves_opening(board):
-                minmax = self.MinMax(possible_move, depth)
-                static_estimate = self.static_estimation_obj.static_estimation_opening(minmax)
-                self.positions_evaulated += 1
-                if v < static_estimate:
-                    v = static_estimate
-                    self.minimax_estimate = v
-                    maxmin = possible_move
-            return maxmin
-        return board
+                minmax_estimate = self.MinMax(possible_move, depth - 1)
+                if v < minmax_estimate:
+                    v = minmax_estimate
+                    # print('inside yo')
+                    self.final_board = possible_move
+            return v
+        self.positions_evaulated += 1
+        return self.static_estimation_obj.static_estimation_opening(board)
 
     def MinMax(self, board, depth):
         """
         MinMax function for MiniMax algorithm for opening game
         """
-        minmax = maxmin = ''
+        # print('not yo')
         if depth:
             v = math.inf
-            depth -= 1
+            # depth -= 1
             for possible_move in self.black.generate_black_moves_opening(board):
-                maxmin = self.MaxMin(possible_move, depth)
-                static_estimate = self.static_estimation_obj.static_estimation_opening(maxmin)
-                self.positions_evaulated += 1
-                if v > static_estimate:
-                    v = static_estimate
-                    minmax = possible_move
-            return minmax
-        return board
+                maxmin_estimate = self.MaxMin(possible_move, depth - 1)
+                if v > maxmin_estimate:
+                    v = maxmin_estimate
+                    # print('inside not yo')
+                    # self.final_board = possible_move
+            return v
+        self.positions_evaulated += 1
+        return self.static_estimation_obj.static_estimation_opening(board)
 
 if __name__ == '__main__':
     
@@ -73,7 +74,8 @@ if __name__ == '__main__':
             exit(1)
         
         minimaxopening = MiniMaxOpening()
-        output_board = minimaxopening.MaxMin(board, depth)
+        minimaxopening.minimax_estimate = minimaxopening.MaxMin(board, depth)
+        output_board = minimaxopening.final_board
 
         # Print the board if the debug flag parameter is set
         if args.print_board:
