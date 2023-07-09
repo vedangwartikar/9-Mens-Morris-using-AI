@@ -3,6 +3,8 @@ import math
 
 from utils import Board, StaticEstimation, Debug, Black
 
+global_depth = 0
+
 class ABOpening:
     def __init__(self):
         self.positions_evaulated = 0
@@ -12,50 +14,45 @@ class ABOpening:
         self.static_estimation_obj = StaticEstimation()
         self.black = Black()
 
+        self.final_board = ''
+
     def MaxMin(self, board, depth, alpha, beta):
         """
         MaxMin function of the Alpha-Beta Pruning algorithm for opening phase
         """
-        minmax = maxmin = ''
         if depth:
             v = -math.inf
-            depth -= 1
             for possible_move in self.board_obj.generate_moves_opening(board):
-                minmax = self.MinMax(possible_move, depth, alpha, beta)
-                static_estimate = self.static_estimation_obj.static_estimation_opening(minmax)
-                self.positions_evaulated += 1
-                if v < static_estimate:
-                    v = static_estimate
-                    self.minimax_estimate = v
-                    maxmin = possible_move
+                minmax_estimate = self.MinMax(possible_move, depth - 1, alpha, beta)
+                if minmax_estimate > v:
+                    v = minmax_estimate
+                    if global_depth == depth:
+                        self.final_board = possible_move
                 if v >= beta:
-                    return maxmin
+                    return v
                 else:
                     alpha = max(alpha, v)
-            return maxmin
-        return board
+            return v
+        self.positions_evaulated += 1
+        return self.static_estimation_obj.static_estimation_opening(board)
 
     def MinMax(self, board, depth, alpha, beta):
         """
         MinMax function of the Alpha-Beta Pruning algorithm for opening phase
         """
-        minmax = maxmin = ''
         if depth:
             v = math.inf
-            depth -= 1
             for possible_move in self.black.generate_black_moves_opening(board):
-                maxmin = self.MaxMin(possible_move, depth, alpha, beta)
-                static_estimate = self.static_estimation_obj.static_estimation_opening(maxmin)
-                self.positions_evaulated += 1
-                if v > static_estimate:
-                    v = static_estimate
-                    minmax = possible_move
+                maxmin_estimate = self.MaxMin(possible_move, depth - 1, alpha, beta)
+                if maxmin_estimate < v:
+                    v = maxmin_estimate
                 if v <= alpha:
-                    return minmax
+                    return v
                 else:
                     beta = min(beta, v)
-            return minmax
-        return board
+            return v
+        self.positions_evaulated += 1
+        return self.static_estimation_obj.static_estimation_opening(board)
 
 if __name__ == '__main__':
 
@@ -79,12 +76,15 @@ if __name__ == '__main__':
             print(f'The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.')
             exit(1)
         
+        global_depth = depth
+        
         abopening = ABOpening()
 
         # Initialize the alpha and beta values to -inf and +inf respectively
         alpha, beta = -math.inf, math.inf
 
-        output_board = abopening.MaxMin(board, depth, alpha, beta)
+        abopening.minimax_estimate = abopening.MaxMin(board, depth, alpha, beta)
+        output_board = abopening.final_board
 
         # Print the board if the debug flag parameter is set
         if args.print_board:

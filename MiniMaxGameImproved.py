@@ -3,51 +3,56 @@ import math
 
 from utils import Board, StaticEstimationImproved, Debug, Black
 
-class MiniMaxGame:
+global_depth = 0
+
+class MiniMaxGameImproved:
     def __init__(self):
         self.positions_evaulated = 0
         self.minimax_estimate = 0
 
         self.board_obj = Board()
-        self.static_estimation_improved_obj = StaticEstimationImproved()
+        self.static_estimation_obj_improved = StaticEstimationImproved()
         self.black = Black()
+
+        self.final_board = ''
 
     def MaxMin(self, board, depth):
         """
-        MinMax function for MiniMax algorithm for Midgame and Endgame phase (Improved)
+        MaxMin function for MiniMax algorithm for Midgame and Endgame phase
         """
-        minmax = maxmin = ''
+        # minmax = maxmin = ''
         if depth:
             v = -math.inf
-            depth -= 1
+            # depth -= 1
             for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
-                minmax = self.MinMax(possible_move, depth)
-                static_estimate = self.static_estimation_improved_obj.static_estimation_midgame_endgame_improved(minmax)
-                self.positions_evaulated += 1
-                if v < static_estimate:
-                    v = static_estimate
-                    self.minimax_estimate = v
-                    maxmin = possible_move
-            return maxmin
-        return board
+                minmax_estimate = self.MinMax(possible_move, depth - 1)
+                if minmax_estimate > v:
+                    v = minmax_estimate
+                    if global_depth == depth:
+                        self.final_board = possible_move
+            return v
+        # else:
+        self.positions_evaulated += 1
+        return self.static_estimation_obj_improved.static_estimation_midgame_endgame_improved(board)
 
     def MinMax(self, board, depth):
         """
-        MinMax function for MiniMax algorithm for Midgame and Endgame phase (Improved)
+        MinMax function for MiniMax algorithm for Midgame and Endgame phase
         """
-        minmax = maxmin = ''
+        # minmax = maxmin = ''
         if depth:
             v = math.inf
-            depth -= 1
+            # depth -= 1
             for possible_move in self.black.generate_black_moves_midgame_endgame(board):
-                maxmin = self.MaxMin(possible_move, depth)
-                static_estimate = self.static_estimation_improved_obj.static_estimation_midgame_endgame_improved(maxmin)
-                self.positions_evaulated += 1
-                if v > static_estimate:
-                    v = static_estimate
-                    minmax = possible_move
-            return minmax
-        return board
+                maxmin_estimate = self.MaxMin(possible_move, depth - 1)
+                if maxmin_estimate < v:
+                    v = maxmin_estimate
+                    # self.minimax_estimate = v
+                    # self.final_board = possible_move
+            return v
+        # else:
+        self.positions_evaulated += 1
+        return self.static_estimation_obj_improved.static_estimation_midgame_endgame_improved(board)
 
 if __name__ == '__main__':
 
@@ -70,18 +75,21 @@ if __name__ == '__main__':
         if board_positions != 21:
             print(f'The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.')
             exit(1)
-        
-        minmaxgame = MiniMaxGame()
-        output_board = minmaxgame.MaxMin(board, depth)
 
-        # Print the board if the debug flag parameter is set
+        global_depth = depth
+        
+        minmaxgameimproved = MiniMaxGameImproved()
+        minmaxgameimproved.minimax_estimate = minmaxgameimproved.MaxMin(board, depth)
+        output_board = minmaxgameimproved.final_board
+
+        # Print the board if the debug parameter flag is set
         if args.print_board:
             print(f'Input Board:\n{ debug.draw(board) }')
             print(f'Output Board:\n{ debug.draw(output_board) }')
 
         print(f'Board Position: { output_board }.')
-        print(f'Positions evaluated by static estimation: { minmaxgame.positions_evaulated }.')
-        print(f'MINIMAX estimate: { minmaxgame.minimax_estimate }.')
+        print(f'Positions evaluated by static estimation: { minmaxgameimproved.positions_evaulated }.')
+        print(f'MINIMAX estimate: { minmaxgameimproved.minimax_estimate }.')
 
         with open(output_file, 'w+') as f:
             f.write(output_board)

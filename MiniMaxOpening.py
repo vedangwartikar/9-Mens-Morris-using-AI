@@ -2,7 +2,7 @@ import argparse
 import math
 
 from utils import Board, StaticEstimation, Debug, Black
-
+global_depth = 0
 
 class MiniMaxOpening:
     def __init__(self):
@@ -19,16 +19,15 @@ class MiniMaxOpening:
         """
         MaxMin function for MiniMax algorithm for opening game
         """
-        # print('yo')
         if depth:
             v = -math.inf
             # depth -= 1
             for possible_move in self.board_obj.generate_moves_opening(board):
                 minmax_estimate = self.MinMax(possible_move, depth - 1)
-                if v < minmax_estimate:
+                if minmax_estimate > v:
                     v = minmax_estimate
-                    # print('inside yo')
-                    self.final_board = possible_move
+                    if global_depth == depth:
+                        self.final_board = possible_move
             return v
         self.positions_evaulated += 1
         return self.static_estimation_obj.static_estimation_opening(board)
@@ -37,15 +36,13 @@ class MiniMaxOpening:
         """
         MinMax function for MiniMax algorithm for opening game
         """
-        # print('not yo')
         if depth:
             v = math.inf
             # depth -= 1
             for possible_move in self.black.generate_black_moves_opening(board):
                 maxmin_estimate = self.MaxMin(possible_move, depth - 1)
-                if v > maxmin_estimate:
+                if maxmin_estimate < v:
                     v = maxmin_estimate
-                    # print('inside not yo')
                     # self.final_board = possible_move
             return v
         self.positions_evaulated += 1
@@ -72,6 +69,8 @@ if __name__ == '__main__':
         if board_positions != 21:
             print(f'The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.')
             exit(1)
+        
+        global_depth = depth
         
         minimaxopening = MiniMaxOpening()
         minimaxopening.minimax_estimate = minimaxopening.MaxMin(board, depth)

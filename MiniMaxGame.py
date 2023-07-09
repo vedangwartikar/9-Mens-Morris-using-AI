@@ -3,6 +3,8 @@ import math
 
 from utils import Board, StaticEstimation, Debug, Black
 
+global_depth = 0
+
 class MiniMaxGame:
     def __init__(self):
         self.positions_evaulated = 0
@@ -21,16 +23,17 @@ class MiniMaxGame:
         # minmax = maxmin = ''
         if depth:
             v = -math.inf
-            depth -= 1
+            # depth -= 1
             for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
-                minmax_estimate = self.MinMax(possible_move, depth)
-                if v < minmax_estimate:
+                minmax_estimate = self.MinMax(possible_move, depth - 1)
+                if minmax_estimate > v:
                     v = minmax_estimate
-                    self.final_board = possible_move
+                    if global_depth == depth:
+                        self.final_board = possible_move
             return v
-        else:
-            self.positions_evaulated += 1
-            return self.static_estimation_obj.static_estimation_midgame_endgame(board)
+        # else:
+        self.positions_evaulated += 1
+        return self.static_estimation_obj.static_estimation_midgame_endgame(board)
 
     def MinMax(self, board, depth):
         """
@@ -39,17 +42,17 @@ class MiniMaxGame:
         # minmax = maxmin = ''
         if depth:
             v = math.inf
-            depth -= 1
+            # depth -= 1
             for possible_move in self.black.generate_black_moves_midgame_endgame(board):
-                maxmin_estimate = self.MaxMin(possible_move, depth)
-                if v > maxmin_estimate:
+                maxmin_estimate = self.MaxMin(possible_move, depth - 1)
+                if maxmin_estimate < v:
                     v = maxmin_estimate
                     # self.minimax_estimate = v
                     # self.final_board = possible_move
             return v
-        else:
-            self.positions_evaulated += 1
-            return self.static_estimation_obj.static_estimation_midgame_endgame(board)
+        # else:
+        self.positions_evaulated += 1
+        return self.static_estimation_obj.static_estimation_midgame_endgame(board)
 
 if __name__ == '__main__':
 
@@ -72,6 +75,8 @@ if __name__ == '__main__':
         if board_positions != 21:
             print(f'The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.')
             exit(1)
+
+        global_depth = depth
         
         minmaxgame = MiniMaxGame()
         minmaxgame.minimax_estimate = minmaxgame.MaxMin(board, depth)
