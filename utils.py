@@ -236,7 +236,7 @@ class StaticEstimation(Black):
         white_pieces, black_pieces = board.count('W'), board.count('B')
         return white_pieces - black_pieces
 
-    def static_estimation_midgame_endgame(self, board):
+    def static_estimation_midgame_endgame(self, board) -> int:
         """
         Returns the static estimation of the board during the midgame or endgame phase
         """
@@ -327,7 +327,7 @@ class StaticEstimationImproved(Black):
         Returns the static estimation of the board during the opening phase
         """
         white_pieces, black_pieces = board.count('W'), board.count('B')
-        major_intersections = [7, 10, 16]
+        major_intersections = [2, 6, 7]
         intersection_bonus, opponent_mill_bonus = 0, 0
 
         if board:

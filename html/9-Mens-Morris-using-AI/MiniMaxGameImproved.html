@@ -31,47 +31,60 @@ import math
 
 from utils import Board, StaticEstimationImproved, Debug, Black
 
-class MiniMaxGame:
+global_depth = 0
+
+class MiniMaxGameImproved:
     def __init__(self):
         self.positions_evaulated = 0
         self.minimax_estimate = 0
 
         self.board_obj = Board()
-        self.static_estimation_improved_obj = StaticEstimationImproved()
+        self.static_estimation_obj_improved = StaticEstimationImproved()
         self.black = Black()
 
+        self.final_board = &#39;&#39;
+
     def MaxMin(self, board, depth):
-        minmax = maxmin = &#39;&#39;
+        &#34;&#34;&#34;
+        MaxMin function for MiniMax algorithm for Midgame and Endgame phase
+        &#34;&#34;&#34;
+        # minmax = maxmin = &#39;&#39;
         if depth:
             v = -math.inf
-            depth -= 1
+            # depth -= 1
             for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
-                minmax = self.MinMax(possible_move, depth)
-                static_estimate = self.static_estimation_improved_obj.static_estimation_midgame_endgame_improved(minmax)
-                self.positions_evaulated += 1
-                if v &lt; static_estimate:
-                    v = static_estimate
-                    self.minimax_estimate = v
-                    maxmin = possible_move
-            return maxmin
-        return board
+                minmax_estimate = self.MinMax(possible_move, depth - 1)
+                if minmax_estimate &gt; v:
+                    v = minmax_estimate
+                    if global_depth == depth:
+                        self.final_board = possible_move
+            return v
+        # else:
+        self.positions_evaulated += 1
+        return self.static_estimation_obj_improved.static_estimation_midgame_endgame_improved(board)
 
     def MinMax(self, board, depth):
-        minmax = maxmin = &#39;&#39;
+        &#34;&#34;&#34;
+        MinMax function for MiniMax algorithm for Midgame and Endgame phase
+        &#34;&#34;&#34;
+        # minmax = maxmin = &#39;&#39;
         if depth:
             v = math.inf
-            depth -= 1
-            for possible_move in self.black.generate_black_moves(board):
-                maxmin = self.MaxMin(possible_move, depth)
-                static_estimate = self.static_estimation_improved_obj.static_estimation_midgame_endgame_improved(maxmin)
-                self.positions_evaulated += 1
-                if v &gt; static_estimate:
-                    v = static_estimate
-                    minmax = possible_move
-            return minmax
-        return board
+            # depth -= 1
+            for possible_move in self.black.generate_black_moves_midgame_endgame(board):
+                maxmin_estimate = self.MaxMin(possible_move, depth - 1)
+                if maxmin_estimate &lt; v:
+                    v = maxmin_estimate
+                    # self.minimax_estimate = v
+                    # self.final_board = possible_move
+            return v
+        # else:
+        self.positions_evaulated += 1
+        return self.static_estimation_obj_improved.static_estimation_midgame_endgame_improved(board)
 
 if __name__ == &#39;__main__&#39;:
+
+    # Parse the command line arguments using argparse module
     parser = argparse.ArgumentParser(description = &#39;Generates the next move for White player using MiniMax algorithm&#39;)
     parser.add_argument(&#39;input_file&#39;, type=str, metavar=&#39;board1.txt&#39;, help=&#39;Input File Name&#39;)
     parser.add_argument(&#39;output_file&#39;, type=str, metavar=&#39;board2.txt&#39;, help=&#39;Output File Name&#39;)
@@ -86,22 +99,25 @@ if __name__ == &#39;__main__&#39;:
     try:
         with open(input_file, &#39;r&#39;) as f:
             board = f.readline().strip()
-        debug.draw(board)
         board_positions = len(board)
         if board_positions != 21:
             print(f&#39;The input board (board1.txt) has { board_positions } positions. The correct positions should be 21.&#39;)
             exit(1)
-        
-        minmaxgame = MiniMaxGame()
-        output_board = minmaxgame.MaxMin(board, depth)
 
+        global_depth = depth
+        
+        minmaxgameimproved = MiniMaxGameImproved()
+        minmaxgameimproved.minimax_estimate = minmaxgameimproved.MaxMin(board, depth)
+        output_board = minmaxgameimproved.final_board
+
+        # Print the board if the debug parameter flag is set
         if args.print_board:
             print(f&#39;Input Board:\n{ debug.draw(board) }&#39;)
             print(f&#39;Output Board:\n{ debug.draw(output_board) }&#39;)
 
         print(f&#39;Board Position: { output_board }.&#39;)
-        print(f&#39;Positions evaluated by static estimation: { minmaxgame.positions_evaulated }.&#39;)
-        print(f&#39;MINIMAX estimate: { minmaxgame.minimax_estimate }.&#39;)
+        print(f&#39;Positions evaluated by static estimation: { minmaxgameimproved.positions_evaulated }.&#39;)
+        print(f&#39;MINIMAX estimate: { minmaxgameimproved.minimax_estimate }.&#39;)
 
         with open(output_file, &#39;w+&#39;) as f:
             f.write(output_board)
@@ -119,8 +135,8 @@ if __name__ == &#39;__main__&#39;:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame"><code class="flex name class">
-<span>class <span class="ident">MiniMaxGame</span></span>
+<dt id="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved"><code class="flex name class">
+<span>class <span class="ident">MiniMaxGameImproved</span></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -128,97 +144,113 @@ if __name__ == &#39;__main__&#39;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class MiniMaxGame:
+<pre><code class="python">class MiniMaxGameImproved:
     def __init__(self):
         self.positions_evaulated = 0
         self.minimax_estimate = 0
 
         self.board_obj = Board()
-        self.static_estimation_improved_obj = StaticEstimationImproved()
+        self.static_estimation_obj_improved = StaticEstimationImproved()
         self.black = Black()
 
+        self.final_board = &#39;&#39;
+
     def MaxMin(self, board, depth):
-        minmax = maxmin = &#39;&#39;
+        &#34;&#34;&#34;
+        MaxMin function for MiniMax algorithm for Midgame and Endgame phase
+        &#34;&#34;&#34;
+        # minmax = maxmin = &#39;&#39;
         if depth:
             v = -math.inf
-            depth -= 1
+            # depth -= 1
             for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
-                minmax = self.MinMax(possible_move, depth)
-                static_estimate = self.static_estimation_improved_obj.static_estimation_midgame_endgame_improved(minmax)
-                self.positions_evaulated += 1
-                if v &lt; static_estimate:
-                    v = static_estimate
-                    self.minimax_estimate = v
-                    maxmin = possible_move
-            return maxmin
-        return board
+                minmax_estimate = self.MinMax(possible_move, depth - 1)
+                if minmax_estimate &gt; v:
+                    v = minmax_estimate
+                    if global_depth == depth:
+                        self.final_board = possible_move
+            return v
+        # else:
+        self.positions_evaulated += 1
+        return self.static_estimation_obj_improved.static_estimation_midgame_endgame_improved(board)
 
     def MinMax(self, board, depth):
-        minmax = maxmin = &#39;&#39;
+        &#34;&#34;&#34;
+        MinMax function for MiniMax algorithm for Midgame and Endgame phase
+        &#34;&#34;&#34;
+        # minmax = maxmin = &#39;&#39;
         if depth:
             v = math.inf
-            depth -= 1
-            for possible_move in self.black.generate_black_moves(board):
-                maxmin = self.MaxMin(possible_move, depth)
-                static_estimate = self.static_estimation_improved_obj.static_estimation_midgame_endgame_improved(maxmin)
-                self.positions_evaulated += 1
-                if v &gt; static_estimate:
-                    v = static_estimate
-                    minmax = possible_move
-            return minmax
-        return board</code></pre>
+            # depth -= 1
+            for possible_move in self.black.generate_black_moves_midgame_endgame(board):
+                maxmin_estimate = self.MaxMin(possible_move, depth - 1)
+                if maxmin_estimate &lt; v:
+                    v = maxmin_estimate
+                    # self.minimax_estimate = v
+                    # self.final_board = possible_move
+            return v
+        # else:
+        self.positions_evaulated += 1
+        return self.static_estimation_obj_improved.static_estimation_midgame_endgame_improved(board)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame.MaxMin"><code class="name flex">
+<dt id="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved.MaxMin"><code class="name flex">
 <span>def <span class="ident">MaxMin</span></span>(<span>self, board, depth)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>MaxMin function for MiniMax algorithm for Midgame and Endgame phase</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def MaxMin(self, board, depth):
-    minmax = maxmin = &#39;&#39;
+    &#34;&#34;&#34;
+    MaxMin function for MiniMax algorithm for Midgame and Endgame phase
+    &#34;&#34;&#34;
+    # minmax = maxmin = &#39;&#39;
     if depth:
         v = -math.inf
-        depth -= 1
+        # depth -= 1
         for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
-            minmax = self.MinMax(possible_move, depth)
-            static_estimate = self.static_estimation_improved_obj.static_estimation_midgame_endgame_improved(minmax)
-            self.positions_evaulated += 1
-            if v &lt; static_estimate:
-                v = static_estimate
-                self.minimax_estimate = v
-                maxmin = possible_move
-        return maxmin
-    return board</code></pre>
+            minmax_estimate = self.MinMax(possible_move, depth - 1)
+            if minmax_estimate &gt; v:
+                v = minmax_estimate
+                if global_depth == depth:
+                    self.final_board = possible_move
+        return v
+    # else:
+    self.positions_evaulated += 1
+    return self.static_estimation_obj_improved.static_estimation_midgame_endgame_improved(board)</code></pre>
 </details>
 </dd>
-<dt id="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame.MinMax"><code class="name flex">
+<dt id="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved.MinMax"><code class="name flex">
 <span>def <span class="ident">MinMax</span></span>(<span>self, board, depth)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>MinMax function for MiniMax algorithm for Midgame and Endgame phase</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def MinMax(self, board, depth):
-    minmax = maxmin = &#39;&#39;
+    &#34;&#34;&#34;
+    MinMax function for MiniMax algorithm for Midgame and Endgame phase
+    &#34;&#34;&#34;
+    # minmax = maxmin = &#39;&#39;
     if depth:
         v = math.inf
-        depth -= 1
-        for possible_move in self.black.generate_black_moves(board):
-            maxmin = self.MaxMin(possible_move, depth)
-            static_estimate = self.static_estimation_improved_obj.static_estimation_midgame_endgame_improved(maxmin)
-            self.positions_evaulated += 1
-            if v &gt; static_estimate:
-                v = static_estimate
-                minmax = possible_move
-        return minmax
-    return board</code></pre>
+        # depth -= 1
+        for possible_move in self.black.generate_black_moves_midgame_endgame(board):
+            maxmin_estimate = self.MaxMin(possible_move, depth - 1)
+            if maxmin_estimate &lt; v:
+                v = maxmin_estimate
+                # self.minimax_estimate = v
+                # self.final_board = possible_move
+        return v
+    # else:
+    self.positions_evaulated += 1
+    return self.static_estimation_obj_improved.static_estimation_midgame_endgame_improved(board)</code></pre>
 </details>
 </dd>
 </dl>
@@ -240,10 +272,10 @@ if __name__ == &#39;__main__&#39;:
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame" href="#9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame">MiniMaxGame</a></code></h4>
+<h4><code><a title="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved" href="#9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved">MiniMaxGameImproved</a></code></h4>
 <ul class="">
-<li><code><a title="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame.MaxMin" href="#9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame.MaxMin">MaxMin</a></code></li>
-<li><code><a title="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame.MinMax" href="#9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGame.MinMax">MinMax</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved.MaxMin" href="#9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved.MaxMin">MaxMin</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved.MinMax" href="#9-Mens-Morris-using-AI.MiniMaxGameImproved.MiniMaxGameImproved.MinMax">MinMax</a></code></li>
 </ul>
 </li>
 </ul>

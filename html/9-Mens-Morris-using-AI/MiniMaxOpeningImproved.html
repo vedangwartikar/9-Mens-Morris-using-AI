@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>9-Mens-Morris-using-AI.ABGame API documentation</title>
+<title>9-Mens-Morris-using-AI.MiniMaxOpeningImproved API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>9-Mens-Morris-using-AI.ABGame</code></h1>
+<h1 class="title">Module <code>9-Mens-Morris-using-AI.MiniMaxOpeningImproved</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
@@ -29,61 +29,56 @@
 <pre><code class="python">import argparse
 import math
 
-from utils import Board, StaticEstimation, Debug, Black
+from utils import Board, StaticEstimationImproved, Debug, Black
 
 global_depth = 0
 
-class ABGame:
+class MiniMaxOpeningImproved:
     def __init__(self):
         self.positions_evaulated = 0
         self.minimax_estimate = 0
 
         self.board_obj = Board()
-        self.static_estimation_obj = StaticEstimation()
+        self.static_estimation_obj_improved = StaticEstimationImproved()
         self.black = Black()
 
         self.final_board = &#39;&#39;
 
-    def MaxMin(self, board, depth, alpha, beta):
+    def MaxMin(self, board, depth):
         &#34;&#34;&#34;
-        MaxMin function of the Alpha-Beta Pruning algorithm for midgame and endgame phase
+        MaxMin function for MiniMax algorithm for opening game
         &#34;&#34;&#34;
         if depth:
             v = -math.inf
-            for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
-                minmax_estimate = self.MinMax(possible_move, depth - 1, alpha, beta)
+            # depth -= 1
+            for possible_move in self.board_obj.generate_moves_opening(board):
+                minmax_estimate = self.MinMax(possible_move, depth - 1)
                 if minmax_estimate &gt; v:
                     v = minmax_estimate
                     if global_depth == depth:
                         self.final_board = possible_move
-                if v &gt;= beta:
-                    return v
-                else:
-                    alpha = max(alpha, v)
             return v
         self.positions_evaulated += 1
-        return self.static_estimation_obj.static_estimation_midgame_endgame(board)
+        return self.static_estimation_obj_improved.static_estimation_opening_improved(board)
 
-    def MinMax(self, board, depth, alpha, beta):
+    def MinMax(self, board, depth):
         &#34;&#34;&#34;
-        MinMax function of the Alpha-Beta Pruning algorithm for midgame and endgame phase
+        MinMax function for MiniMax algorithm for opening game
         &#34;&#34;&#34;
         if depth:
             v = math.inf
-            for possible_move in self.black.generate_black_moves_midgame_endgame(board):
-                maxmin_estimate = self.MaxMin(possible_move, depth - 1, alpha, beta)
+            # depth -= 1
+            for possible_move in self.black.generate_black_moves_opening(board):
+                maxmin_estimate = self.MaxMin(possible_move, depth - 1)
                 if maxmin_estimate &lt; v:
                     v = maxmin_estimate
-                if v &lt;= alpha:
-                    return v
-                else:
-                    beta = min(beta, v)
+                    # self.final_board = possible_move
             return v
         self.positions_evaulated += 1
-        return self.static_estimation_obj.static_estimation_midgame_endgame(board)
+        return self.static_estimation_obj_improved.static_estimation_opening_improved(board)
 
 if __name__ == &#39;__main__&#39;:
-
+    
     # Parse the command line arguments using argparse module
     parser = argparse.ArgumentParser(description = &#39;Generates the next move for White player using MiniMax algorithm&#39;)
     parser.add_argument(&#39;input_file&#39;, type=str, metavar=&#39;board1.txt&#39;, help=&#39;Input File Name&#39;)
@@ -106,13 +101,9 @@ if __name__ == &#39;__main__&#39;:
         
         global_depth = depth
         
-        abgame = ABGame()
-
-        # Initialize the alpha and beta values to -inf and +inf respectively
-        alpha, beta = -math.inf, math.inf
-
-        abgame.minimax_estimate = abgame.MaxMin(board, depth, alpha, beta)
-        output_board = abgame.final_board
+        minimaxopeningimproved = MiniMaxOpeningImproved()
+        minimaxopeningimproved.minimax_estimate = minimaxopeningimproved.MaxMin(board, depth)
+        output_board = minimaxopeningimproved.final_board
 
         # Print the board if the debug flag parameter is set
         if args.print_board:
@@ -120,8 +111,8 @@ if __name__ == &#39;__main__&#39;:
             print(f&#39;Output Board:\n{ debug.draw(output_board) }&#39;)
 
         print(f&#39;Board Position: { output_board }.&#39;)
-        print(f&#39;Positions evaluated by static estimation: { abgame.positions_evaulated }.&#39;)
-        print(f&#39;MINIMAX estimate: { abgame.minimax_estimate }.&#39;)
+        print(f&#39;Positions evaluated by static estimation: { minimaxopeningimproved.positions_evaulated }.&#39;)
+        print(f&#39;MINIMAX estimate: { minimaxopeningimproved.minimax_estimate }.&#39;)
 
         with open(output_file, &#39;w+&#39;) as f:
             f.write(output_board)
@@ -139,8 +130,8 @@ if __name__ == &#39;__main__&#39;:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="9-Mens-Morris-using-AI.ABGame.ABGame"><code class="flex name class">
-<span>class <span class="ident">ABGame</span></span>
+<dt id="9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved"><code class="flex name class">
+<span>class <span class="ident">MiniMaxOpeningImproved</span></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -148,113 +139,103 @@ if __name__ == &#39;__main__&#39;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ABGame:
+<pre><code class="python">class MiniMaxOpeningImproved:
     def __init__(self):
         self.positions_evaulated = 0
         self.minimax_estimate = 0
 
         self.board_obj = Board()
-        self.static_estimation_obj = StaticEstimation()
+        self.static_estimation_obj_improved = StaticEstimationImproved()
         self.black = Black()
 
         self.final_board = &#39;&#39;
 
-    def MaxMin(self, board, depth, alpha, beta):
+    def MaxMin(self, board, depth):
         &#34;&#34;&#34;
-        MaxMin function of the Alpha-Beta Pruning algorithm for midgame and endgame phase
+        MaxMin function for MiniMax algorithm for opening game
         &#34;&#34;&#34;
         if depth:
             v = -math.inf
-            for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
-                minmax_estimate = self.MinMax(possible_move, depth - 1, alpha, beta)
+            # depth -= 1
+            for possible_move in self.board_obj.generate_moves_opening(board):
+                minmax_estimate = self.MinMax(possible_move, depth - 1)
                 if minmax_estimate &gt; v:
                     v = minmax_estimate
                     if global_depth == depth:
                         self.final_board = possible_move
-                if v &gt;= beta:
-                    return v
-                else:
-                    alpha = max(alpha, v)
             return v
         self.positions_evaulated += 1
-        return self.static_estimation_obj.static_estimation_midgame_endgame(board)
+        return self.static_estimation_obj_improved.static_estimation_opening_improved(board)
 
-    def MinMax(self, board, depth, alpha, beta):
+    def MinMax(self, board, depth):
         &#34;&#34;&#34;
-        MinMax function of the Alpha-Beta Pruning algorithm for midgame and endgame phase
+        MinMax function for MiniMax algorithm for opening game
         &#34;&#34;&#34;
         if depth:
             v = math.inf
-            for possible_move in self.black.generate_black_moves_midgame_endgame(board):
-                maxmin_estimate = self.MaxMin(possible_move, depth - 1, alpha, beta)
+            # depth -= 1
+            for possible_move in self.black.generate_black_moves_opening(board):
+                maxmin_estimate = self.MaxMin(possible_move, depth - 1)
                 if maxmin_estimate &lt; v:
                     v = maxmin_estimate
-                if v &lt;= alpha:
-                    return v
-                else:
-                    beta = min(beta, v)
+                    # self.final_board = possible_move
             return v
         self.positions_evaulated += 1
-        return self.static_estimation_obj.static_estimation_midgame_endgame(board)</code></pre>
+        return self.static_estimation_obj_improved.static_estimation_opening_improved(board)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="9-Mens-Morris-using-AI.ABGame.ABGame.MaxMin"><code class="name flex">
-<span>def <span class="ident">MaxMin</span></span>(<span>self, board, depth, alpha, beta)</span>
+<dt id="9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved.MaxMin"><code class="name flex">
+<span>def <span class="ident">MaxMin</span></span>(<span>self, board, depth)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>MaxMin function of the Alpha-Beta Pruning algorithm for midgame and endgame phase</p></div>
+<div class="desc"><p>MaxMin function for MiniMax algorithm for opening game</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MaxMin(self, board, depth, alpha, beta):
+<pre><code class="python">def MaxMin(self, board, depth):
     &#34;&#34;&#34;
-    MaxMin function of the Alpha-Beta Pruning algorithm for midgame and endgame phase
+    MaxMin function for MiniMax algorithm for opening game
     &#34;&#34;&#34;
     if depth:
         v = -math.inf
-        for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
-            minmax_estimate = self.MinMax(possible_move, depth - 1, alpha, beta)
+        # depth -= 1
+        for possible_move in self.board_obj.generate_moves_opening(board):
+            minmax_estimate = self.MinMax(possible_move, depth - 1)
             if minmax_estimate &gt; v:
                 v = minmax_estimate
                 if global_depth == depth:
                     self.final_board = possible_move
-            if v &gt;= beta:
-                return v
-            else:
-                alpha = max(alpha, v)
         return v
     self.positions_evaulated += 1
-    return self.static_estimation_obj.static_estimation_midgame_endgame(board)</code></pre>
+    return self.static_estimation_obj_improved.static_estimation_opening_improved(board)</code></pre>
 </details>
 </dd>
-<dt id="9-Mens-Morris-using-AI.ABGame.ABGame.MinMax"><code class="name flex">
-<span>def <span class="ident">MinMax</span></span>(<span>self, board, depth, alpha, beta)</span>
+<dt id="9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved.MinMax"><code class="name flex">
+<span>def <span class="ident">MinMax</span></span>(<span>self, board, depth)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>MinMax function of the Alpha-Beta Pruning algorithm for midgame and endgame phase</p></div>
+<div class="desc"><p>MinMax function for MiniMax algorithm for opening game</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def MinMax(self, board, depth, alpha, beta):
+<pre><code class="python">def MinMax(self, board, depth):
     &#34;&#34;&#34;
-    MinMax function of the Alpha-Beta Pruning algorithm for midgame and endgame phase
+    MinMax function for MiniMax algorithm for opening game
     &#34;&#34;&#34;
     if depth:
         v = math.inf
-        for possible_move in self.black.generate_black_moves_midgame_endgame(board):
-            maxmin_estimate = self.MaxMin(possible_move, depth - 1, alpha, beta)
+        # depth -= 1
+        for possible_move in self.black.generate_black_moves_opening(board):
+            maxmin_estimate = self.MaxMin(possible_move, depth - 1)
             if maxmin_estimate &lt; v:
                 v = maxmin_estimate
-            if v &lt;= alpha:
-                return v
-            else:
-                beta = min(beta, v)
+                # self.final_board = possible_move
         return v
     self.positions_evaulated += 1
-    return self.static_estimation_obj.static_estimation_midgame_endgame(board)</code></pre>
+    return self.static_estimation_obj_improved.static_estimation_opening_improved(board)</code></pre>
 </details>
 </dd>
 </dl>
@@ -276,10 +257,10 @@ if __name__ == &#39;__main__&#39;:
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="9-Mens-Morris-using-AI.ABGame.ABGame" href="#9-Mens-Morris-using-AI.ABGame.ABGame">ABGame</a></code></h4>
+<h4><code><a title="9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved" href="#9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved">MiniMaxOpeningImproved</a></code></h4>
 <ul class="">
-<li><code><a title="9-Mens-Morris-using-AI.ABGame.ABGame.MaxMin" href="#9-Mens-Morris-using-AI.ABGame.ABGame.MaxMin">MaxMin</a></code></li>
-<li><code><a title="9-Mens-Morris-using-AI.ABGame.ABGame.MinMax" href="#9-Mens-Morris-using-AI.ABGame.ABGame.MinMax">MinMax</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved.MaxMin" href="#9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved.MaxMin">MaxMin</a></code></li>
+<li><code><a title="9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved.MinMax" href="#9-Mens-Morris-using-AI.MiniMaxOpeningImproved.MiniMaxOpeningImproved.MinMax">MinMax</a></code></li>
 </ul>
 </li>
 </ul>

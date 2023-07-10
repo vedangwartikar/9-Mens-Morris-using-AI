@@ -2,6 +2,7 @@ import argparse
 import math
 
 from utils import Board, StaticEstimation, Debug, Black
+
 global_depth = 0
 
 class MiniMaxOpening:

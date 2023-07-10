@@ -78,7 +78,7 @@ if __name__ == '__main__':
         black = Black()
 
         input_board_swap = black.board_swapper(board)
-        minimaxopeningblack.minimax_estimate = minimaxopeningblack.MaxMin(input_board_swap, depth)
+        minimaxopeningblack.minimax_estimate = minimaxopeningblack.MaxMin(input_board_swap, depth) * -1
         output_board = black.board_swapper(minimaxopeningblack.final_board)
 
         # Print the board if the debug flag parameter is set
