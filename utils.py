@@ -327,7 +327,7 @@ class StaticEstimationImproved(Black):
         Returns the static estimation of the board during the opening phase
         """
         white_pieces, black_pieces = board.count('W'), board.count('B')
-        major_intersections = [2, 6, 7]
+        major_intersections = [13, 15, 16]
         intersection_bonus, opponent_mill_bonus = 0, 0
 
         if board:
