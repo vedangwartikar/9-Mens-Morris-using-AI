@@ -328,16 +328,13 @@ class StaticEstimationImproved(Black):
         """
         white_pieces, black_pieces = board.count('W'), board.count('B')
         major_intersections = [13, 15, 16]
-        intersection_bonus, opponent_mill_bonus = 0, 0
+        intersection_bonus = 0
 
         if board:
             for intersection in major_intersections:
                 if board[intersection] == 'W':
                     intersection_bonus += 1
-            for location, piece in enumerate(board):
-                if piece == 'W':
-                    opponent_mill_bonus = 5 if self.check_potential_mill(location, board, 'B') else opponent_mill_bonus
-        return white_pieces - black_pieces + opponent_mill_bonus + intersection_bonus
+        return white_pieces - black_pieces + intersection_bonus
 
     def static_estimation_midgame_endgame_improved(self, board) -> int:
         """
