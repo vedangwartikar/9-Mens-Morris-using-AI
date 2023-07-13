@@ -25,6 +25,7 @@ class MiniMaxGameImproved:
             v = -math.inf
             # depth -= 1
             for possible_move in self.board_obj.generate_moves_midgame_endgame(board):
+                # print("maxmin: ", possible_move)
                 minmax_estimate = self.MinMax(possible_move, depth - 1)
                 if minmax_estimate > v:
                     v = minmax_estimate
@@ -44,6 +45,7 @@ class MiniMaxGameImproved:
             v = math.inf
             # depth -= 1
             for possible_move in self.black.generate_black_moves_midgame_endgame(board):
+                # print("minmax: ", possible_move)
                 maxmin_estimate = self.MaxMin(possible_move, depth - 1)
                 if maxmin_estimate < v:
                     v = maxmin_estimate

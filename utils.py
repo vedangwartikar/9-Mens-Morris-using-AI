@@ -136,7 +136,7 @@ class Board:
                         temp_board[location], temp_board[neighbor] = 'x', 'W'
                         temp_board = ''.join(temp_board)
                         if self.closeMill(neighbor, temp_board):
-                            self.generate_remove(temp_board, move_list)
+                            move_list = self.generate_remove(temp_board, move_list)
                         else:
                             move_list.append(temp_board)
         return move_list
@@ -152,7 +152,7 @@ class Board:
                 temp_board[location] = 'W'
                 temp_board = ''.join(temp_board)
                 if self.closeMill(location, temp_board):
-                    self.generate_remove(temp_board, add_list)
+                    add_list = self.generate_remove(temp_board, add_list)
                 else:
                     add_list.append(temp_board)
         return add_list
@@ -255,7 +255,7 @@ class StaticEstimationImproved(Black):
     def __init__(self) -> None:
         super().__init__()
     
-    def improved_mill(self, location, board, check_mill) -> bool:
+    def check_potential_mill(self, location, board, check_mill) -> bool:
         """
         Returns True if the white's location is part of a mill else returns False
         """
@@ -311,7 +311,7 @@ class StaticEstimationImproved(Black):
         possible_mills = 0
         for location, piece in enumerate(board):
             if piece == 'x':
-                possible_mills += 1 if self.improved_mill(location, board, 'W') else possible_mills
+                possible_mills += 1 if self.check_potential_mill(location, board, 'W') else possible_mills
         return possible_mills
 
     def total_corners_available(self, board) -> int:
@@ -336,7 +336,7 @@ class StaticEstimationImproved(Black):
                     intersection_bonus += 1
             for location, piece in enumerate(board):
                 if piece == 'W':
-                    opponent_mill_bonus = 5 if self.improved_mill(location, board, 'B') else opponent_mill_bonus
+                    opponent_mill_bonus = 5 if self.check_potential_mill(location, board, 'B') else opponent_mill_bonus
         return white_pieces - black_pieces + opponent_mill_bonus + intersection_bonus
 
     def static_estimation_midgame_endgame_improved(self, board) -> int:
@@ -345,14 +345,21 @@ class StaticEstimationImproved(Black):
         """
         white_pieces, black_pieces = board.count('W'), board.count('B')
         black_moves = len(self.generate_black_moves_midgame_endgame(board))
+
+        if board:
+            opponent_mill_penalty = 0
+            for location, piece in enumerate(board):
+                if piece == 'x':
+                    opponent_mill_penalty += 1 if self.check_potential_mill(location, board, 'B') else opponent_mill_penalty
+
         if black_pieces <= 2:
-            return 5000
+            return 10000
         elif white_pieces <= 2:
-            return -5000
+            return -10000
         elif black_moves == 0:
-            return 5000
+            return 10000
         else:
-            return 500 * (white_pieces - black_pieces) - black_moves + 25 * self.count_mills(board)
+            return 1000 * (white_pieces - black_pieces) - black_moves - 50 * opponent_mill_penalty
 
 class Debug():
     def __init__(self) -> None:
