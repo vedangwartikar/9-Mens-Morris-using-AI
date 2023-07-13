@@ -359,7 +359,7 @@ class StaticEstimationImproved(Black):
         elif black_moves == 0:
             return 10000
         else:
-            return 1000 * (white_pieces - black_pieces) - black_moves - 50 * opponent_mill_penalty
+            return 1000 * (white_pieces - black_pieces) - black_moves - 20 * opponent_mill_penalty
 
 class Debug():
     def __init__(self) -> None:
