@@ -304,24 +304,6 @@ class StaticEstimationImproved(Black):
         else:
             return False
 
-    def count_mills(self, board) -> int:
-        """
-        Returns the number of possible mills on the board where the position is empty
-        """
-        possible_mills = 0
-        for location, piece in enumerate(board):
-            if piece == 'x':
-                possible_mills += 1 if self.check_potential_mill(location, board, 'W') else possible_mills
-        return possible_mills
-
-    def total_corners_available(self, board) -> int:
-        total_corners = 0
-        corners = [0, 1, 18, 20]
-        for location, piece in enumerate(board):
-            if location in corners and piece == 'x':
-                total_corners += 1
-        return total_corners
-
     def static_estimation_opening_improved(self, board) -> int:
         """
         Returns the static estimation of the board during the opening phase
