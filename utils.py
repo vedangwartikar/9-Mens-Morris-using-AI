@@ -157,7 +157,7 @@ class Board:
                     add_list.append(temp_board)
         return add_list
 
-    def generate_moves_opening(self, board) -> str:
+    def generate_moves_opening(self, board) -> list:
         """
         Returns a list of all possible board positions created by adding a white piece
         """
@@ -176,7 +176,7 @@ class Board:
                         temp_board[location_i], temp_board[location_j] = 'x', 'W'
                         temp_board = ''.join(temp_board)
                         if self.closeMill(location_j, temp_board):
-                            self.generate_remove(temp_board, hop_list)
+                            hop_list = self.generate_remove(temp_board, hop_list)
                         else:
                             hop_list.append(temp_board)
         return hop_list
